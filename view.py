@@ -46,8 +46,15 @@ class View(QtCore.QObject):  # hereda de la clase QtGui.QmainWindow
         # window configuration:
         self.window.setWindowIcon(QtGui.QIcon("./icons/icon.png"))  # el punto significa el lugar donde esta el script
         
-        # Add de event handlers to de menu objects
-        self.window.captureData.clicked.connect(partial(self.capture_data_function, "paaapuuuu"))       
+        # Add de event handlers to the configuration page:
+        self.window.captureData.clicked.connect(partial(self.capture_data_function))
+        self.window.object1Save.clicked.connect(partial(self.saveObjectHandler, "1"))      
+        self.window.object2Save.clicked.connect(partial(self.saveObjectHandler, "2"))
+        self.window.object3Save.clicked.connect(partial(self.saveObjectHandler, "3"))
+        self.window.t1r1Enable.stateChanged.connect(partial(self.configureSensor,"t1r1"))
+        self.window.t1r2Enable.stateChanged.connect(partial(self.configureSensor,"t1r2"))
+        self.window.t2r1Enable.stateChanged.connect(partial(self.configureSensor,"t2r1"))
+        self.window.t2r2Enable.stateChanged.connect(partial(self.configureSensor,"t2r2"))
 
         # graphics
         self.my_plot_t1r1 = singlePlot2D("Response 1", self.window.t1r1Graph)
@@ -56,42 +63,92 @@ class View(QtCore.QObject):  # hereda de la clase QtGui.QmainWindow
         self.my_plot_t2r2 = singlePlot2D("Response 4", self.window.t2r2Graph)
 
         #from the configuration pdu:
-        self.frec_muestreo = 100
+        self.frec_muestreo = 2000
         self.numBits_dato = 8
         self.ref_volt = 4
-        self.n = np.arange(self.num_datos)
-        self.t = self.n*(1/self.frec_muestreo)
 
         #From each data pack:
-        self.num_datos = 1000
+        self.num_datos = 100
         self.ganancia = 200
-
-        sine_freq = 60
-        self.s = sin(2 * pi * sine_freq * self.t)
-        
 
         self.window.show()
         print("view init done!")
 
-    def capture_data_function(self, arguments):
-        print("change_mode_check pressed")
+    def configureSensor(self):
+        pass
+
+    def saveObjectHandler (self, object_to_save):
+        
+        #get the data
 
         #show the message window:
-        dial = QtGui.QMessageBox()
-        dial.setText(u"Delete all selected paths?")
-        dial.setWindowTitle("the name stored is: "+arguments)
-        yesBt = dial.addButton('Yes', QtGui.QMessageBox.YesRole)
-        noBt = dial.addButton('No', QtGui.QMessageBox.NoRole)
-        dial.exec_()
+        msgBox = QtGui.QMessageBox()
+        msgBox.setText("Prepare your Object")
+        msgBox.setInformativeText("¿Do you have your object on front of the sensor?")
+        msgBox.setStandardButtons(QtGui.QMessageBox.Yes | QtGui.QMessageBox.Cancel)
+        msgBox.setDefaultButton(QtGui.QMessageBox.Yes)
+        ret = msgBox.exec_()
         
-        if dial.clickedButton() == yesBt:
-            print("yes pressed")
-        if dial.clickedButton() == noBt:
-            print("no pressed")
+        if ret == QtGui.QMessageBox.Yes:
+            # Save was clicked
+            print("save pressed")
+        elif ret == QtGui.QMessageBox.Cancel:
+            # cancel was clicked
+             print("canceled pressed")     
         else:
             print("canceled")
 
-        print(arguments)
+        if object_to_save == "1":
+            print ("object 1 saved as: "+self.window.object1Name)
+        elif object_to_save == "2":
+            print ("object 2 saved as: "+self.window.object2Name)
+        elif object_to_save == "3":
+            print ("object 3 saved as: "+self.window.object3Name)
+
+        
+
+    def capture_data_function(self):
+        
+        #get the data:
+        sine_freq = 60
+        self.n = np.arange(self.num_datos)
+        self.t = self.n*(1/self.frec_muestreo)
+        self.s1 = sin(2 * pi * sine_freq * self.t) + (np.random.rand(self.num_datos))/3
+        self.s2 = sin(2 * pi * sine_freq * self.t) + (np.random.rand(self.num_datos))/3
+        self.s3 = sin(2 * pi * sine_freq * self.t) + (np.random.rand(self.num_datos))/3
+        self.s4 = sin(2 * pi * sine_freq * self.t) + (np.random.rand(self.num_datos))/3
+
+        #graficate each response:
+        self.my_plot_t1r1.update_data(self.t, self.s1)
+        self.my_plot_t1r2.update_data(self.t, self.s2)
+        self.my_plot_t2r1.update_data(self.t, self.s3)
+        self.my_plot_t2r2.update_data(self.t, self.s4)
+
+        #save the characteristics on the vectors:
+        self.timeFactorVector = np.random.rand(4)
+        self.FrecuencyFactorVector = np.random.rand(4)
+        self.CombinedFactorVector = np.random.rand(4)
+
+        #show the results of the algorithm
+        self.window.t1r1Time.display(self.timeFactorVector[0])
+        self.window.t1r1Frecuency.display(self.FrecuencyFactorVector[0])
+        self.window.t1r1Combined.display(self.CombinedFactorVector[0])
+
+        self.window.t1r2Time.display(self.timeFactorVector[1])
+        self.window.t1r2Frecuency.display(self.FrecuencyFactorVector[1])
+        self.window.t1r2Combined.display(self.CombinedFactorVector[1])
+
+        self.window.t2r1Time.display(self.timeFactorVector[2])
+        self.window.t2r1Frecuency.display(self.FrecuencyFactorVector[2])
+        self.window.t2r1Combined.display(self.CombinedFactorVector[2])
+        
+        self.window.t2r2Time.display(self.timeFactorVector[3])
+        self.window.t2r2Frecuency.display(self.FrecuencyFactorVector[3])
+        self.window.t2r2.Combined.display(self.CombinedFactorVector[3])
+
+        print("data adquired")
+
+
 
 
 class singlePlot2D(pg.GraphicsWindow):
@@ -113,7 +170,7 @@ class singlePlot2D(pg.GraphicsWindow):
 
         #self.plot_space.setWindowTitle('pyqtgraph example: Scrolling Plots')
 
-        self.myPlot = self.addPlot(title = graphName)
+        self.myPlot = self.addPlot()
         self.myPlot.setLabels(left='Valor')
         self.myPlot.setLabels(bottom='tiempo')
 
