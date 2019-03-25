@@ -47,8 +47,8 @@ def get_data():
         list_T2R1 = 0
         list_T1R1 = 0
         return list_T1R1, list_T1R2, list_T2R1, list_T2R2            
-list_T1R1, list_T1R2, list_T2R1, list_T2R2 = get_data()
-print(list_T1R1)
-print(list_T1R2)
-print(list_T2R1)
-print(list_T2R2)
+#list_T1R1, list_T1R2, list_T2R1, list_T2R2 = get_data()
+#print(list_T1R1)
+#print(list_T1R2)
+#print(list_T2R1)
+#print(list_T2R2)

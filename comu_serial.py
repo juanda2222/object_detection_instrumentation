@@ -1,7 +1,7 @@
 def get_serial_data():
     import serial
     s = serial.Serial('COM6', baudrate=9600)
-    N = 35
+    N = 1029
     data_str = []
     i = 0
     while i <= N :
@@ -13,3 +13,6 @@ def get_serial_data():
     data_str = [x.rstrip() for x in data_str]        
     data_int = list(map(int,data_str))
     return data_int
+    #print(data_int)
+
+#get_serial_data()

@@ -5,7 +5,7 @@ void setup(){
 }
 
 void loop(){
-    int N = 30;
+    int N = 1024;
     int Gain = 1024;
     int i = 0;
     int cadena_datos[N+5];
