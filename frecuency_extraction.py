@@ -1,7 +1,6 @@
 from scipy.fftpack import fft
 import numpy as np
 import matplotlib.pyplot as plt
-from time import sleep
 from get_data import get_data
 
 class Frecuency_extracion(object):
@@ -11,7 +10,9 @@ class Frecuency_extracion(object):
     def resta(self,n,m):
         return n-m
 
-    def extracion(self,yf,N):
+    def extraction(self,y,Fs):
+        yf = fft(y)
+        N = len(yf)
         resta = self.resta
         dat = [abs(yf) for yf in yf.tolist()] # convertir yf a lista
         data_norm = 2.0/N * np.abs(dat[0:N//2])
@@ -24,8 +25,8 @@ class Frecuency_extracion(object):
         for i in data_norm:
             if i > valor_min_dat:
                 valores_max.append(i)
-                index_valores_max.append(v)
-            v += 1
+                index_valores_max.append(v*Fs/N)
+            v += 1            
         df = index_valores_max.copy()
         index_valores_max.append(0)
         df.insert(0,0)
@@ -35,32 +36,30 @@ class Frecuency_extracion(object):
         print("Las frecuencias de cada pico son: ",index_valores_max[0:len(index_valores_max)-1])
         print("La diferencia entre cada frecuencia es: ",dF)
 
-    def graphic(self,N,T,yf,y):
-
-        xf1 = np.linspace(0.0, 1.0/(2.0*T), N)
-        xf = np.linspace(0.0, 1.0/(2.0*T), N//2)
+    def graphic(self,y,Fs):
+        a = 1
+        N = len(y)
+        yf = fft(y)
+        xf1 = np.linspace(0.0, N/(a*Fs), N//a)
+        xf = np.linspace(0.0, Fs/(2.0), N//2)
         plt.subplot(2,1,1)
         plt.cla()
-        plt.plot(xf1, y[0:N],'b')
-        plt.grid()
+        plt.plot(xf1, y[0:N//a],'k')
         plt.subplot(2,1,2)
         plt.cla()
-        plt.plot(xf, 2.0/N * np.abs(yf[0:N//2]),'r')
-        plt.draw()
-        plt.pause(6)
+        plt.plot(xf, 2.0/N * np.abs(yf[0:N//2]),'k')
+        plt.show()
 
-#serial,a,b,c = get_data()
-#N1 = len(serial)
-#T1 = 1.0/N1
+#y,a,b,c = get_data()
+#Fs = len(y)
+#Ts = 1.0/Fs
 
 #EJEMPLO PARA VER QUE TODO FUNCIONA BIEN 
-N = 1000
-T = 1.0/N
-x = np.linspace(0.0,N*T,N)
-y = 5*np.sin(35.0 * 2.0*np.pi*x) + np.sin((380.0)* 2.0*np.pi*x)+ 2*np.cos(120.0 * 2.0*np.pi*x)+ 3*np.cos(80.0 * 2.0*np.pi*x)
-yf= fft(y)
+Fs = 8000 # frecuencia muestreo
+N = 1000 # numero de datos
+t = np.linspace(0,N/Fs,N) # time vector
+y = 1.5*np.sin(2550.0 * 2.0*np.pi*t) + 4*np.sin((3600.0)* 2.0*np.pi*t)+ 2*np.cos(2020.0 * 2.0*np.pi*t)+ 3*np.cos(800.0 * 2.0*np.pi*t)+3*np.cos(1000.0 * 2.0*np.pi*t)
+
 frecuencia = Frecuency_extracion()
-frecuencia.extracion(yf,N)
-frecuencia.graphic(N,T,yf,y)
-
-
+frecuencia.extraction(y,Fs)
+frecuencia.graphic(y,Fs)

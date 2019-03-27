@@ -2,26 +2,82 @@
                                         
 void setup(){
     Serial.begin(9600);
+    //get_frecuencia_muestreo();
 }
 
 void loop(){
-    int N = 1024;
-    int Gain = 1024;
-    int i = 0;
-    int cadena_datos[N+5];
-    cadena_datos[0] = 2;
-    cadena_datos[1] = 0;
-    cadena_datos[2] = Gain;
-    cadena_datos[3] = N;
-    while(i <= N+4)
-    {
-        cadena_datos[i+4] = analogRead(signal);
-        i++;
-    }
-    cadena_datos[N+5] = 1;
-    for(int a = 0; a <= N+5; a++)
-    {
-        Serial.println(cadena_datos[a]);       
-    } 
-     delay(100);
+
+    datos_serial();
+    delay(100);
+     
 }
+void datos_serial(){
+    //DATOS DE T1R1
+    int head = 88;
+    int N = 200;
+    int Gain = 1023;
+    int i = 0;
+    int count = 0;
+    Serial.println(head);
+    Serial.println(0);
+    Serial.println(Gain);
+    Serial.println(N);
+    while(count <= N){
+        Serial.println(analogRead(signal));
+        count++;
+    }
+    Serial.println(1);
+    //DATOS DE T1R2
+    Serial.println(head);
+    Serial.println(1);
+    Serial.println(Gain);
+    Serial.println(N);
+    count = 0;
+    while(count <= N){
+        Serial.println(analogRead(signal));
+        count++;
+    }
+    Serial.println(1);
+    //DATOS DE T2R1
+    Serial.println(head);
+    Serial.println(2);
+    Serial.println(Gain);
+    Serial.println(N);
+    count = 0;
+    while(count <= N){
+        Serial.println(analogRead(signal));
+        count++;
+    }
+    Serial.println(1);
+    //DATOS DE T2R2
+    Serial.println(head);
+    Serial.println(2);
+    Serial.println(Gain);
+    Serial.println(N);
+    count = 0;
+    while(count <= N){
+        Serial.println(analogRead(signal));
+        count++;
+    }
+    Serial.println(1);   
+}
+
+void get_frecuencia_muestreo(){
+
+  unsigned long time1=0;
+  unsigned long time=0;
+  Serial.println("*************************");
+  Serial.println("ENSAYO TIEMPO DE MUESTRO:");
+  Serial.println("*************************");
+  for(byte i =0; i<4; i++){
+    time1=micros();
+    int A=analogRead(A0);
+    time=micros()-time1;
+    Serial.print(" Muestra: ");
+    Serial.print(i+1);
+    Serial.print(" Tiempo: ");
+    Serial.println(time);
+  }
+
+}
+
