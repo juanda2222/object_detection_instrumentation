@@ -1,8 +1,7 @@
 import numpy as np
 import matplotlib.pyplot as plt
-from time import sleep
 from get_data import get_data
-
+from get_vector import get_vector 
 class temporal_extract(object):
     def __init__(self): #método
         print("_______temporal_extraction______")
@@ -42,13 +41,18 @@ class temporal_extract(object):
         plt.cla()
         plt.plot(xt, y[0:N//a],'k')
         plt.show()
-#y,a,b,c = get_data()
 
 #EJEMPLO PARA VER QUE TODO FUNCIONA BIEN 
-Fs = 8000 # frecuencia muestreo
-N = 1000 # numero de datos
-t = np.linspace(0.0,N/Fs,N)
-y = 1.5*np.sin(2550.0 * 2.0*np.pi*t) + 4*np.sin((3600.0)* 2.0*np.pi*t)+ 2*np.cos(2020.0 * 2.0*np.pi*t)+ 3*np.cos(800.0 * 2.0*np.pi*t)+3*np.cos(1000.0 * 2.0*np.pi*t)
+#Fs = 8000 # frecuencia muestreo
+#N = 1000 # numero de datos
+#t = np.linspace(0.0,N/Fs,N)
+#y = 1.5*np.sin(2550.0 * 2.0*np.pi*t) + 4*np.sin((3600.0)* 2.0*np.pi*t)+ 2*np.cos(2020.0 * 2.0*np.pi*t)+ 3*np.cos(800.0 * 2.0*np.pi*t)+3*np.cos(1000.0 * 2.0*np.pi*t)
+
+#EJEMPLO CON DATOS TOMADOS CON ARDUINO
+Fs = 8928
+y = get_vector()
+
+
 tiempo = temporal_extract()
 tiempo.extracion(y,Fs)
 tiempo.graphic(y,Fs)

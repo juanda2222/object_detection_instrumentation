@@ -2,6 +2,7 @@ from scipy.fftpack import fft
 import numpy as np
 import matplotlib.pyplot as plt
 from get_data import get_data
+from get_vector import get_vector
 
 class Frecuency_extracion(object):
     def __init__(self): #método
@@ -50,15 +51,17 @@ class Frecuency_extracion(object):
         plt.plot(xf, 2.0/N * np.abs(yf[0:N//2]),'k')
         plt.show()
 
-#y,a,b,c = get_data()
-#Fs = len(y)
-#Ts = 1.0/Fs
 
 #EJEMPLO PARA VER QUE TODO FUNCIONA BIEN 
-Fs = 8000 # frecuencia muestreo
-N = 1000 # numero de datos
-t = np.linspace(0,N/Fs,N) # time vector
-y = 1.5*np.sin(2550.0 * 2.0*np.pi*t) + 4*np.sin((3600.0)* 2.0*np.pi*t)+ 2*np.cos(2020.0 * 2.0*np.pi*t)+ 3*np.cos(800.0 * 2.0*np.pi*t)+3*np.cos(1000.0 * 2.0*np.pi*t)
+#Fs = 8000 # frecuencia muestreo
+#N = 1000 # numero de datos
+#t = np.linspace(0,N/Fs,N) # time vector
+#y = 1.5*np.sin(2550.0 * 2.0*np.pi*t) + 4*np.sin((3600.0)* 2.0*np.pi*t)+ 2*np.cos(2020.0 * 2.0*np.pi*t)+ 3*np.cos(800.0 * 2.0*np.pi*t)+3*np.cos(1000.0 * 2.0*np.pi*t)
+
+#EJEMPLO CON DATOS TOMADOS CON ARDUINO
+Fs = 8928
+y = get_vector()
+
 
 frecuencia = Frecuency_extracion()
 frecuencia.extraction(y,Fs)
