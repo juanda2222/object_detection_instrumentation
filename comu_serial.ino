@@ -2,77 +2,74 @@
 int flag = 0;                                     
 void setup(){
     Serial.begin(9600);
-    datos_config();
+    datos_config();    
     //get_frecuencia_muestreo();
 }
 
 void loop(){        
     delay(100);
-    datos_serial();
+    vector_datos();
 }
-void datos_serial(){
-    
-    //DATOS DE T1R1
-    int head = 88;
+
+void vector_datos(){
     int N = 200;
+    int head = 1500;
+    int datos[4*N+23];
     int Gain = 1023;
     int i = 0;
     int count = 0;
-    Serial.println(head);
-    Serial.println(0);
-    Serial.println(Gain);
-    Serial.println(N);
+    //DATOS DE T1R1
+    datos[0] = head;
+    datos[1] = 0;
+    datos[2] = Gain;
+    datos[3] = N;
+    count = 0;
     while(count <= N){
-        Serial.println(analogRead(signal));
+        datos[count+4] = analogRead(signal);
         count++;
     }
-    Serial.println(1);
+    datos[N+5] = 1;
     //DATOS DE T1R2
-    Serial.println(head);
-    Serial.println(1);
-    Serial.println(Gain);
-    Serial.println(N);
+    datos[N+6] = head;
+    datos[N+7] = 1;
+    datos[N+8] = Gain;
+    datos[N+9] = N;
     count = 0;
     while(count <= N){
-        Serial.println(analogRead(signal));
+        datos[N+count+10] = analogRead(signal);
         count++;
     }
-    Serial.println(1);
+    datos[2*N+11] = 1;
     //DATOS DE T2R1
-    Serial.println(head);
-    Serial.println(2);
-    Serial.println(Gain);
-    Serial.println(N);
+    datos[2*N+12] = head;
+    datos[2*N+13] = 2;
+    datos[2*N+14] = Gain;
+    datos[2*N+15] = N;
     count = 0;
     while(count <= N){
-        Serial.println(analogRead(signal));
+        datos[2*N+count+16] = analogRead(signal);
         count++;
     }
-    Serial.println(1);
+    datos[3*N+17] = 1;
     //DATOS DE T2R2
-    Serial.println(head);
-    Serial.println(3);
-    Serial.println(Gain);
-    Serial.println(N);
+    datos[3*N+18] = head;
+    datos[3*N+19] = 3;
+    datos[3*N+20] = Gain;
+    datos[3*N+21] = N;
     count = 0;
     while(count <= N){
-        Serial.println(analogRead(signal));
+        datos[3*N+count+22] = analogRead(signal);
         count++;
     }
-    Serial.println(1);   
-}
-
-void datos_config(){
-    int head = 1;
-    int sample = 8000;
-    int resolution = 1023;
-    int Vref = 5;
-    int CR = 1;
-    Serial.println(head);
-    Serial.println(sample);
-    Serial.println(resolution);
-    Serial.println(Vref);
-    Serial.println(CR);
+    datos[4*N+23] = 1;
+    //ENVIO DATOS
+    count = 0;
+    while(count <= 4*N+23){
+        Serial.println(datos[count]);
+        count++;
+    }
+    
+    
 }
 
 void get_frecuencia_muestreo(){

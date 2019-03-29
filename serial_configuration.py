@@ -15,6 +15,6 @@ def serial_configuration():
 
 #sample, resolution, Vref, CR = serial_configuration()
 #print(sample)
-##print(resolution)
+#print(resolution)
 #print(Vref)
 #print(CR)

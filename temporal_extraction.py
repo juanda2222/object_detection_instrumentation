@@ -2,20 +2,20 @@ import numpy as np
 import matplotlib.pyplot as plt
 from get_data import get_data
 from get_vector import get_vector 
-class temporal_extract(object):
+class Temporal_extract(object):
     def __init__(self): #método
         print("_______temporal_extraction______")
  
     def resta(self,n,m):
         return n-m
  
-    def extracion(self,y,Fs):
+    def temporal_extraction(self,y,Fs):
         
         resta = self.resta
         dat = [abs(a) for a in y] # convertir yf a lista
         max_valor = max(dat)
         min_valor = min(dat)
-        valor_min_dat = (max_valor+min_valor)/1.2
+        valor_min_dat = (max_valor+min_valor)/4
         valores_max = []
         index_valores_max = []
         v = 0
@@ -24,17 +24,22 @@ class temporal_extract(object):
                 valores_max.append(i)
                 index_valores_max.append(v)
             v += 1            
-        dt = [1/Fs*m for m in index_valores_max.copy()]
+        vector_dt = [1/Fs*m for m in index_valores_max.copy()]
+        #dt = sum(vector_dt)/len(vector_dt)
+        #return dt
         index_valores_max.append(0)
         index_valores_max = [1/Fs*a for a in index_valores_max]
-        dt.insert(0,0)
-        dt = list(map(resta,index_valores_max,dt))
-        dT = dt[1:len(dt)-1]
-        print("Los máximos valores son: ",valores_max)
-        print("El tiempo de cada pico es: ", index_valores_max[0:len(index_valores_max)-1])
-        print("La diferencia entre cada tiempo es: ",dT)
+        vector_dt.insert(0,0)
+        vector_dt = list(map(resta,index_valores_max,vector_dt))
+        vector_dt = vector_dt[1:len(vector_dt)-1]
+        dT = sum(vector_dt)/len(vector_dt)
+        return dT
+        #print("Los máximos valores son: ",valores_max)
+        #print("El tiempo de cada pico es: ", index_valores_max[0:len(index_valores_max)-1])
+        #print("La diferencia entre cada tiempo es: ",vector_dt)
+        #print("dT: ",dT)
  
-    def graphic(self,y,Fs):
+    def temporal_graphic(self,y,Fs):
         a = 1
         N = len(y)
         xt = np.linspace(0.0, N/(a*Fs), N//a)
@@ -42,17 +47,3 @@ class temporal_extract(object):
         plt.plot(xt, y[0:N//a],'k')
         plt.show()
 
-#EJEMPLO PARA VER QUE TODO FUNCIONA BIEN 
-#Fs = 8000 # frecuencia muestreo
-#N = 1000 # numero de datos
-#t = np.linspace(0.0,N/Fs,N)
-#y = 1.5*np.sin(2550.0 * 2.0*np.pi*t) + 4*np.sin((3600.0)* 2.0*np.pi*t)+ 2*np.cos(2020.0 * 2.0*np.pi*t)+ 3*np.cos(800.0 * 2.0*np.pi*t)+3*np.cos(1000.0 * 2.0*np.pi*t)
-
-#EJEMPLO CON DATOS TOMADOS CON ARDUINO
-Fs = 8928
-y = get_vector()
-
-
-tiempo = temporal_extract()
-tiempo.extracion(y,Fs)
-tiempo.graphic(y,Fs)
