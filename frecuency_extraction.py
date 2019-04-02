@@ -16,10 +16,10 @@ class Frecuency_extracion(object):
         N = len(yf)
         resta = self.resta
         dat = [abs(yf) for yf in yf.tolist()] # convertir yf a lista
-        data_norm = 2.0/N * np.abs(dat[0:N//2])
-        max_valor = max(2.0/N * np.abs(dat[0:N//2]))
-        min_valor = min(2.0/N * np.abs(dat[0:N//2]))
-        valor_min_dat = (max_valor+min_valor)/4
+        data_norm = np.abs(dat[0:N//2])*2/N
+        max_valor = max(np.abs(dat[0:N//2])*2/N)
+        min_valor = min(np.abs(dat[0:N//2])*2/N)
+        valor_min_dat = (max_valor+min_valor)/10
         valores_max = []
         index_valores_max = []
         v = 0
@@ -33,6 +33,7 @@ class Frecuency_extracion(object):
         vector_df.insert(0,0)
         vector_df = list(map(resta,index_valores_max,vector_df))
         vector_df = vector_df[1:len(vector_df)-1]
+        #return vector_df
         dF = sum(vector_df)/len(vector_df)
         return dF
         #print("Los máximos valores normalizados son: ",valores_max)
@@ -48,11 +49,11 @@ class Frecuency_extracion(object):
         xf = np.linspace(0.0, Fs/(2.0), N//2)
         plt.subplot(2,1,1)
         plt.cla()
-        plt.plot(xf1, y[0:N//a],color = [0.0134,0.023,0.0845])
+        plt.plot(xf1, y[0:N//a],'k')#color = [0.134,0.43,0.1845])
         plt.xlabel("time(s)")
         plt.subplot(2,1,2)
         plt.cla()
-        plt.plot(xf, 2.0/N * np.abs(yf[0:N//2]), color = [0.0334,0.213,0.245])
+        plt.plot(xf,np.abs(yf[0:N//2])*2/N, 'r')# color = [0.114,0.313,0.285])
         plt.xlabel("frecuency(Hz)")
         plt.show()
 

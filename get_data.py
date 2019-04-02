@@ -38,17 +38,17 @@ def get_data():
         'CR1' : serial[index_header2-1], 'CR2' : serial[index_header3-1], 'CR3' : serial[index_header4-1],'CR4' : serial[len(serial)-1],                 
     }                          
 
-    if serial_get.get('selec1') == 0: # cuando la opcione es x
-        list_T1R1 = [s*Vref/serial_get.get('gain1') for s in serial_get.get('data1')]
+    if serial_get.get('selec1') == 87: # cuando la opcione es x
+        list_T1R1 = [s*Vref/resolution*serial_get.get('gain1') for s in serial_get.get('data1')]
         if  serial_get.get('CR1') == 1:              
-            if serial_get.get('selec2') == 1: # cuando la opcione es y
-                list_T1R2 = [s*Vref/serial_get.get('gain2') for s in serial_get.get('data2')]                
+            if serial_get.get('selec2') == 88: # cuando la opcione es y
+                list_T1R2 = [s*Vref/resolution*serial_get.get('gain2') for s in serial_get.get('data2')]                
                 if  serial_get.get('CR2') == 1:                    
-                    if serial_get.get('selec3') == 2: # cuando la opcione es w
-                        list_T2R1 = [s*Vref/serial_get.get('gain3') for s in serial_get.get('data3')]                        
+                    if serial_get.get('selec3') == 89: # cuando la opcione es w
+                        list_T2R1 = [s*Vref/resolution*serial_get.get('gain3') for s in serial_get.get('data3')]                        
                         if  serial_get.get('CR3') == 1:                           
-                            if serial_get.get('selec4') == 3: # cuando la opcione es z
-                                list_T2R2 = [s*Vref/serial_get.get('gain4') for s in serial_get.get('data4')]                                
+                            if serial_get.get('selec4') == 90: # cuando la opcione es z
+                                list_T2R2 = [s*Vref/resolution*serial_get.get('gain4') for s in serial_get.get('data4')]                                
                                 if  serial_get.get('CR4') == 1:
                                     return list_T1R1, list_T1R2, list_T2R1, list_T2R2  
 

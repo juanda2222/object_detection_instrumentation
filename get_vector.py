@@ -1,7 +1,7 @@
 from get_data import get_data
 def get_vector() :
    T1R1=1
-   T1R2=1
+   T1R2=0
    T2R1=0 
    T2R2=0
    
@@ -30,4 +30,5 @@ def get_vector() :
 
 
 #vector= get_vector()
-#print("Vector1 :",vector)
+#print("Vector1 :", vector)
+#print("longitud Vector1 :", len(vector))

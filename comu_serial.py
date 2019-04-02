@@ -19,7 +19,7 @@ def setup_serial_data():
 
 def get_serial_data():
     s = serial.Serial('COM6', baudrate=9600) 
-    N = 200
+    N = 185
     M = 4*N+28
     data_str = []
     i = 0
