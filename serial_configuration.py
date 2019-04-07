@@ -12,9 +12,3 @@ def serial_configuration():
     CR = bytes_config[4]
     if CR == 1:
         return sample, resolution, Vref, CR
-
-#sample, resolution, Vref, CR = serial_configuration()
-#print(sample)
-#print(resolution)
-#print(Vref)
-#print(CR)

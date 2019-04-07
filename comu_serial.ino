@@ -2,26 +2,12 @@
 int flag = 0;                                     
 void setup(){
     Serial.begin(9600);
-    //unsigned long time1=0;
-    //unsigned long time=0;      
-    //time1=micros();
-    //datos_B();
     datos_config();    
-    //time=micros()-time1;
-    //Serial.print(" Tiempo1: ");
-    //Serial.println(time);
-    //get_frecuencia_muestreo();
 }
 
 void loop(){  
-    //unsigned long time1=0;
-    //unsigned long time=0;      
-    //time1=micros();
     delay(100);
     vector_datos();
-    //time=micros()-time1;
-    //Serial.print(" Tiempo2: ");
-    //Serial.println(time);
 }
 
 void vector_datos(){

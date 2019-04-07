@@ -1,7 +1,7 @@
 import numpy as np
 import matplotlib.pyplot as plt
 from get_data import get_data
-from get_vector import get_vector 
+
 class Temporal_extract(object):
     def __init__(self): #método
         print("_______temporal_extraction______")
@@ -24,8 +24,6 @@ class Temporal_extract(object):
                 index_valores_max.append(v)
             v += 1            
         vector_dt = [1/Fs*m for m in index_valores_max.copy()]
-        #dt = sum(vector_dt)/len(vector_dt)
-        #return dt
         index_valores_max.append(0)
         index_valores_max = [1/Fs*a for a in index_valores_max]
         vector_dt.insert(0,0)
@@ -33,10 +31,7 @@ class Temporal_extract(object):
         vector_dt = vector_dt[1:len(vector_dt)-1]
         dT = sum(vector_dt)/len(vector_dt)
         return dT
-        #print("Los máximos valores son: ",valores_max)
-        #print("El tiempo de cada pico es: ", index_valores_max[0:len(index_valores_max)-1])
-        #print("La diferencia entre cada tiempo es: ",vector_dt)
-        #print("dT: ",dT)
+
  
     def temporal_graphic(self,y,Fs):
         a = 1

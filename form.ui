@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>1091</width>
-    <height>630</height>
+    <height>671</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -20,72 +20,8 @@ color: rgb(69, 215, 255);
 background-color: rgb(0, 0, 0);
 color: rgb(255, 255, 255);</string>
   </property>
-  <layout class="QVBoxLayout" name="verticalLayout_10">
-   <item>
-    <widget class="QWidget" name="widget_7" native="true">
-     <layout class="QHBoxLayout" name="horizontalLayout_4">
-      <item>
-       <widget class="QLabel" name="label_4">
-        <property name="font">
-         <font>
-          <family>Consolas</family>
-          <pointsize>18</pointsize>
-          <weight>9</weight>
-          <italic>false</italic>
-          <bold>false</bold>
-         </font>
-        </property>
-        <property name="styleSheet">
-         <string notr="true">font: 75 18pt &quot;Consolas&quot;;
-background-color: rgb(0, 0, 0);</string>
-        </property>
-        <property name="text">
-         <string>ULTRASONIC OBJECT IDENTIFIER Jjat_1.0</string>
-        </property>
-        <property name="scaledContents">
-         <bool>false</bool>
-        </property>
-        <property name="alignment">
-         <set>Qt::AlignCenter</set>
-        </property>
-        <property name="wordWrap">
-         <bool>false</bool>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QPushButton" name="back">
-        <property name="sizePolicy">
-         <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-          <horstretch>0</horstretch>
-          <verstretch>0</verstretch>
-         </sizepolicy>
-        </property>
-        <property name="styleSheet">
-         <string notr="true">background-color: rgb(0, 0, 0);</string>
-        </property>
-        <property name="text">
-         <string>back</string>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QPushButton" name="next">
-        <property name="sizePolicy">
-         <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-          <horstretch>0</horstretch>
-          <verstretch>0</verstretch>
-         </sizepolicy>
-        </property>
-        <property name="text">
-         <string>next</string>
-        </property>
-       </widget>
-      </item>
-     </layout>
-    </widget>
-   </item>
-   <item>
+  <layout class="QGridLayout" name="gridLayout_3">
+   <item row="1" column="0">
     <widget class="QStackedWidget" name="stacked_windows">
      <property name="autoFillBackground">
       <bool>false</bool>
@@ -445,8 +381,23 @@ background-color: rgb(0, 0, 0);</string>
                    </item>
                    <item>
                     <widget class="QCheckBox" name="t1r1Enable">
+                     <property name="enabled">
+                      <bool>true</bool>
+                     </property>
+                     <property name="mouseTracking">
+                      <bool>true</bool>
+                     </property>
+                     <property name="tabletTracking">
+                      <bool>false</bool>
+                     </property>
                      <property name="text">
                       <string>enable this</string>
+                     </property>
+                     <property name="checkable">
+                      <bool>true</bool>
+                     </property>
+                     <property name="tristate">
+                      <bool>false</bool>
                      </property>
                     </widget>
                    </item>
@@ -684,6 +635,11 @@ background-color: rgb(0, 0, 0);</string>
           </item>
           <item>
            <widget class="QPushButton" name="identifyButton">
+            <property name="styleSheet">
+             <string notr="true">background-color: rgb(166, 205, 255);
+font: 75 9pt &quot;Verdana&quot;;
+color: rgb(0, 0, 0);</string>
+            </property>
             <property name="text">
              <string>Identify</string>
             </property>
@@ -781,15 +737,19 @@ background-color: rgb(0, 0, 0);</string>
               <widget class="QLabel" name="objectName_result">
                <property name="font">
                 <font>
-                 <family>Consolas</family>
-                 <pointsize>8</pointsize>
+                 <family>Verdana</family>
+                 <pointsize>12</pointsize>
                  <weight>9</weight>
                  <italic>false</italic>
                  <bold>false</bold>
                 </font>
                </property>
+               <property name="styleSheet">
+                <string notr="true">color: rgb(255, 255, 0);
+font: 75 12pt &quot;Verdana&quot;;</string>
+               </property>
                <property name="text">
-                <string>Object Name</string>
+                <string/>
                </property>
                <property name="alignment">
                 <set>Qt::AlignCenter</set>
@@ -832,7 +792,75 @@ background-color: rgb(0, 0, 0);</string>
      </widget>
     </widget>
    </item>
-   <item>
+   <item row="0" column="0">
+    <widget class="QWidget" name="widget_7" native="true">
+     <layout class="QHBoxLayout" name="horizontalLayout_4">
+      <item>
+       <widget class="QLabel" name="label_4">
+        <property name="font">
+         <font>
+          <family>Consolas</family>
+          <pointsize>18</pointsize>
+          <weight>9</weight>
+          <italic>false</italic>
+          <bold>false</bold>
+         </font>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">font: 75 18pt &quot;Consolas&quot;;
+background-color: rgb(0, 0, 0);</string>
+        </property>
+        <property name="text">
+         <string>ULTRASONIC OBJECT IDENTIFIER Jjat_1.0</string>
+        </property>
+        <property name="scaledContents">
+         <bool>false</bool>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignCenter</set>
+        </property>
+        <property name="wordWrap">
+         <bool>false</bool>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QPushButton" name="back">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">background-color: rgb(0, 0, 0);
+background-color: rgb(0, 0, 127);</string>
+        </property>
+        <property name="text">
+         <string>back</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QPushButton" name="next">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">background-color: rgb(0, 0, 127);</string>
+        </property>
+        <property name="text">
+         <string>next</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item row="2" column="0">
     <layout class="QGridLayout" name="gridLayout_2">
      <property name="sizeConstraint">
       <enum>QLayout::SetMinAndMaxSize</enum>
@@ -843,49 +871,18 @@ background-color: rgb(0, 0, 0);</string>
      <property name="topMargin">
       <number>0</number>
      </property>
-     <item row="0" column="2">
-      <widget class="QPushButton" name="SaveObject">
-       <property name="styleSheet">
-        <string notr="true">color: rgb(255, 255, 255);
-background-color: rgb(170, 0, 0);</string>
-       </property>
-       <property name="text">
-        <string>Save Object</string>
-       </property>
-      </widget>
-     </item>
-     <item row="3" column="2">
-      <spacer name="horizontalSpacer_2">
-       <property name="orientation">
-        <enum>Qt::Horizontal</enum>
-       </property>
-       <property name="sizeHint" stdset="0">
-        <size>
-         <width>40</width>
-         <height>20</height>
-        </size>
-       </property>
-      </spacer>
-     </item>
-     <item row="2" column="1" alignment="Qt::AlignRight">
-      <widget class="QLabel" name="label_2">
-       <property name="text">
-        <string>Name Objete:</string>
-       </property>
-      </widget>
-     </item>
-     <item row="0" column="1">
+     <item row="4" column="1">
       <widget class="QPushButton" name="captureData">
        <property name="styleSheet">
         <string notr="true">color: rgb(255, 255, 255);
-background-color: rgb(170, 0, 0);</string>
+background-color: rgb(0, 85, 127);</string>
        </property>
        <property name="text">
         <string>Capture Data</string>
        </property>
       </widget>
      </item>
-     <item row="1" column="1">
+     <item row="4" column="3">
       <spacer name="horizontalSpacer">
        <property name="orientation">
         <enum>Qt::Horizontal</enum>
@@ -898,8 +895,30 @@ background-color: rgb(170, 0, 0);</string>
        </property>
       </spacer>
      </item>
-     <item row="2" column="2">
-      <widget class="QLineEdit" name="lineEdit"/>
+     <item row="4" column="4">
+      <widget class="QLabel" name="label_2">
+       <property name="text">
+        <string>Name Object:</string>
+       </property>
+      </widget>
+     </item>
+     <item row="4" column="5">
+      <widget class="QLineEdit" name="lineEdit">
+       <property name="text">
+        <string/>
+       </property>
+      </widget>
+     </item>
+     <item row="4" column="2">
+      <widget class="QPushButton" name="SaveObject">
+       <property name="styleSheet">
+        <string notr="true">color: rgb(255, 255, 255);
+background-color: rgb(0, 85, 127);</string>
+       </property>
+       <property name="text">
+        <string>Save Object</string>
+       </property>
+      </widget>
      </item>
     </layout>
    </item>
