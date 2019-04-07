@@ -3,7 +3,7 @@ from serial_configuration import serial_configuration
 #serial = [2,0,10,5,0.03,0.1,0.4,0.1,0.04,1]
 
 def get_data():
-    header = 1500    
+    header = 1500   
     sample, resolution, Vref, CR = serial_configuration()
     serial = get_serial_data()
     serial = serial[5:len(serial)]

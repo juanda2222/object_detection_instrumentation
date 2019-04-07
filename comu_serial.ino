@@ -2,16 +2,30 @@
 int flag = 0;                                     
 void setup(){
     Serial.begin(9600);
+    //unsigned long time1=0;
+    //unsigned long time=0;      
+    //time1=micros();
+    //datos_B();
     datos_config();    
+    //time=micros()-time1;
+    //Serial.print(" Tiempo1: ");
+    //Serial.println(time);
     //get_frecuencia_muestreo();
 }
 
-void loop(){        
+void loop(){  
+    //unsigned long time1=0;
+    //unsigned long time=0;      
+    //time1=micros();
     delay(100);
     vector_datos();
+    //time=micros()-time1;
+    //Serial.print(" Tiempo2: ");
+    //Serial.println(time);
 }
 
 void vector_datos(){
+    
     int TxW = 87; // 0x57
 	int TxX = 88; // 0x58
 	int TxY = 89; // 0x59
@@ -80,11 +94,17 @@ void datos_config(){
     int resolution = 1023;
     int Vref = 5;
     int CR = 1;
-    Serial.println(head);
-    Serial.println(sample);
-    Serial.println(resolution);
-    Serial.println(Vref);
-    Serial.println(CR);
+    int datos_conf[5];
+    int i = 0;
+    datos_conf[0] = head;
+    datos_conf[1] = sample;
+    datos_conf[2] = resolution;
+    datos_conf[3] = Vref;
+    datos_conf[4] = CR;
+    while(i <= 4){
+        Serial.println(datos_conf[i]);
+        i++;
+    }        
 }
 
 void get_frecuencia_muestreo(){
@@ -105,4 +125,5 @@ void get_frecuencia_muestreo(){
   }
 
 }
+
 

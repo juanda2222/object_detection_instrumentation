@@ -1,14 +1,14 @@
 import functools
 import sys
 import traceback
-import numpy as np
 
 #local libraries 
-from extract_features import Extract_features
-from frecuency_extraction import Frecuency_extracion
 from temporal_extraction import Temporal_extract
 from energy_extraction import Energy_signal
 from get_data import get_data
+from frecuency_extraction import Frecuency_extraction
+from extract_features import Extract_features
+
 
 # for gui tools:
 from PySide2 import QtCore
@@ -58,9 +58,7 @@ class View(QtCore.QObject):  # hereda de la clase QtGui.QmainWindow
 
         # Add de event handlers to the configuration page:
         self.window.captureData.clicked.connect(partial(self.capture_data_function))
-        self.window.object1Save.clicked.connect(partial(self.saveObjectHandler, "1"))      
-        self.window.object2Save.clicked.connect(partial(self.saveObjectHandler, "2"))
-        self.window.object3Save.clicked.connect(partial(self.saveObjectHandler, "3"))
+        self.window.SaveObject.clicked.connect(partial(self.saveObjectHandler))      
         self.window.t1r1Enable.stateChanged.connect(partial(self.configureSensor,"t1r1"))
         self.window.t1r2Enable.stateChanged.connect(partial(self.configureSensor,"t1r2"))
         self.window.t2r1Enable.stateChanged.connect(partial(self.configureSensor,"t2r1"))
@@ -80,10 +78,9 @@ class View(QtCore.QObject):  # hereda de la clase QtGui.QmainWindow
 
         #from the configuration pdu:
         self.frec_muestreo = 8928
-        self.numBits_dato = 8
-        self.ref_volt = 4
 
         #From each data pack:
+        self.num_datos = 100
         self.ganancia = 200
 
         self.window.show()
@@ -99,7 +96,7 @@ class View(QtCore.QObject):  # hereda de la clase QtGui.QmainWindow
             self.window.stacked_windows.setCurrentIndex(index+1)
             print("next")
 
-    def saveObjectHandler (self, object_to_save):
+    def saveObjectHandler (self):
         
 
         #show the message window:
@@ -112,77 +109,153 @@ class View(QtCore.QObject):  # hereda de la clase QtGui.QmainWindow
         
         if ret == QtGui.QMessageBox.Yes:
             # Save was clicked
+            name = self.window.lineEdit.text()
             print("save pressed")
+            print ("object saved as: ",name)
+
         elif ret == QtGui.QMessageBox.Cancel:
             # cancel was clicked
              print("canceled pressed")     
         else:
             print("canceled")
 
-        if object_to_save == "1":
-            print ("object 1 saved as: "+self.window.object1Name)
-        elif object_to_save == "2":
-            print ("object 2 saved as: "+self.window.object2Name)
-        elif object_to_save == "3":
-            print ("object 3 saved as: "+self.window.object3Name)
+        
 
     def get_dat(self):
+        pass
+        #get the data:
         self.s1,self.s2,self.s3,self.s4=get_data()
         self.num_datos = np.arange(len(self.s1))
         self.t = self.num_datos*(1/self.frec_muestreo)
         return (self.s1, self.s2, self.s3, self.s4)
+
+    def configureSensor(self,data,state):
+
+        if data == "t1r1":
+            global t1r1
+            global t1r2
+            global t2r1
+            global t2r2
+            if state == QtCore.Qt.Checked: 
+                t1r1 = 1 
+            else:
+                t1r1 = 0
+        if data == "t1r2":
+            if state == QtCore.Qt.Checked: 
+                t1r2 = 1      
+            else:
+                t1r2 = 0
+                #print(t1r2)        
+        if data == "t2r1":
+            if state == QtCore.Qt.Checked: 
+                t2r1 = 1
+                #print(t2r1)        
+            else:
+                t2r1 = 0
+                #print(t2r1) 
+        if data == "t2r2":
+            if state == QtCore.Qt.Checked: 
+                t2r2 = 1
+                #print(t2r2)         
+            else:
+                t2r2 = 0
+                #print(t2r2) 
 
     def capture_data_function(self):
         
         #get the data:
         vecs = self.get_dat()
 
-        #graficate each response:
-        self.my_plot_t1r1.update_data(self.t, vecs[0])
-        self.my_plot_t1r2.update_data(self.t, vecs[1])
-        self.my_plot_t2r1.update_data(self.t, vecs[2])
-        self.my_plot_t2r2.update_data(self.t, vecs[3])
+        
 
         #save the characteristics on the vectors:
-        signal = Extract_features()
+        self.signal = Extract_features()
 
-        self.FrecuencyFactorVector1 = signal.frecuency_extraction(vecs[0],self.frec_muestreo)   
-        self.timeFactorVector1 = 1000*signal.temporal_extraction(vecs[0],self.frec_muestreo)
-        self.CombinedFactorVector1 = signal.energy_extraction(vecs[0])
+        self.FrecuencyFactorVector1 = self.signal.frecuency_extraction(vecs[0],self.frec_muestreo)   
+        self.timeFactorVector1 = 1000*self.signal.temporal_extraction(vecs[0],self.frec_muestreo)
+        self.CombinedFactorVector1 = self.signal.energy_extraction(vecs[0])
 
-        self.FrecuencyFactorVector2 = signal.frecuency_extraction(vecs[1],self.frec_muestreo)   
-        self.timeFactorVector2 = 1000*signal.temporal_extraction(vecs[1],self.frec_muestreo)
-        self.CombinedFactorVector2 = signal.energy_extraction(vecs[1])
+        self.FrecuencyFactorVector2 = self.signal.frecuency_extraction(vecs[1],self.frec_muestreo)   
+        self.timeFactorVector2 = 1000*self.signal.temporal_extraction(vecs[1],self.frec_muestreo)
+        self.CombinedFactorVector2 = self.signal.energy_extraction(vecs[1])
 
-        self.FrecuencyFactorVector3 = signal.frecuency_extraction(vecs[2],self.frec_muestreo)   
-        self.timeFactorVector3 = 1000*signal.temporal_extraction(vecs[2],self.frec_muestreo)
-        self.CombinedFactorVector3 = signal.energy_extraction(vecs[2])
+        self.FrecuencyFactorVector3 = self.signal.frecuency_extraction(vecs[2],self.frec_muestreo)   
+        self.timeFactorVector3 = 1000*self.signal.temporal_extraction(vecs[2],self.frec_muestreo)
+        self.CombinedFactorVector3 = self.signal.energy_extraction(vecs[2])
 
-        self.FrecuencyFactorVector4 = signal.frecuency_extraction(vecs[3],self.frec_muestreo)   
-        self.timeFactorVector4 = 1000*signal.temporal_extraction(vecs[3],self.frec_muestreo)
-        self.CombinedFactorVector4 = signal.energy_extraction(vecs[3])
+        self.FrecuencyFactorVector4 = self.signal.frecuency_extraction(vecs[3],self.frec_muestreo)   
+        self.timeFactorVector4 = 1000*self.signal.temporal_extraction(vecs[3],self.frec_muestreo)
+        self.CombinedFactorVector4 = self.signal.energy_extraction(vecs[3])
 
-        #show the results of the algorithm on each plot:
-        self.window.t1r1Time.display(self.timeFactorVector1)
-        self.window.t1r1Frecuency.display(self.FrecuencyFactorVector1)
-        self.window.t1r1Combined.display(self.CombinedFactorVector1)
+            
 
-        self.window.t1r2Time.display(self.timeFactorVector2)
-        self.window.t1r2Frecuency.display(self.FrecuencyFactorVector2)
-        self.window.t1r2Combined.display(self.CombinedFactorVector2)
+        if t1r1 == 1 and t1r2 == 0 and t2r1 == 0 and t2r2 == 0 :
+            
+            #show the results of the algorithm on each plot:
+            self.window.t1r1Time.display(self.timeFactorVector1)
+            self.window.t1r1Frecuency.display(self.FrecuencyFactorVector1)
+            self.window.t1r1Combined.display(self.CombinedFactorVector1)
 
-        self.window.t2r1Time.display(self.timeFactorVector3)
-        self.window.t2r1Frecuency.display(self.FrecuencyFactorVector3)
-        self.window.t2r1Combined.display(self.CombinedFactorVector3)
-        
-        self.window.t2r2Time.display(self.timeFactorVector4)
-        self.window.t2r2Frecuency.display(self.FrecuencyFactorVector4)
-        self.window.t2r2.Combined.display(self.CombinedFactorVector4)
+            #graficate each response:
+            self.my_plot_t1r1.update_data(self.t, vecs[0])
+
+        if t1r1 == 1 and t1r2 == 1 and t2r1 == 0 and t2r2 == 0 :
+            
+            #show the results of the algorithm on each plot:
+            self.window.t1r1Time.display(self.timeFactorVector1)
+            self.window.t1r1Frecuency.display(self.FrecuencyFactorVector1)
+            self.window.t1r1Combined.display(self.CombinedFactorVector1)
+
+            self.window.t1r2Time.display(self.timeFactorVector2)
+            self.window.t1r2Frecuency.display(self.FrecuencyFactorVector2)
+            self.window.t1r2Combined.display(self.CombinedFactorVector2)
+
+            #graficate each response:
+            self.my_plot_t1r1.update_data(self.t, vecs[0])
+            self.my_plot_t1r2.update_data(self.t, vecs[1])
+
+        if t1r1 == 1 and t1r2 == 0 and t2r1 == 1 and t2r2 == 0 :
+            
+            #show the results of the algorithm on each plot:
+            self.window.t1r1Time.display(self.timeFactorVector1)
+            self.window.t1r1Frecuency.display(self.FrecuencyFactorVector1)
+            self.window.t1r1Combined.display(self.CombinedFactorVector1)
+
+            self.window.t2r1Time.display(self.timeFactorVector3)
+            self.window.t2r1Frecuency.display(self.FrecuencyFactorVector3)
+            self.window.t2r1Combined.display(self.CombinedFactorVector3) 
+
+            #graficate each response:
+            self.my_plot_t1r1.update_data(self.t, vecs[0])
+            self.my_plot_t2r1.update_data(self.t, vecs[2])
+
+        if t1r1 == 1 and t1r2 == 1 and t2r1 == 1 and t2r2 == 1 :
+            
+            #show the results of the algorithm on each plot:
+            self.window.t1r1Time.display(self.timeFactorVector1)
+            self.window.t1r1Frecuency.display(self.FrecuencyFactorVector1)
+            self.window.t1r1Combined.display(self.CombinedFactorVector1)
+
+            self.window.t1r2Time.display(self.timeFactorVector2)
+            self.window.t1r2Frecuency.display(self.FrecuencyFactorVector2)
+            self.window.t1r2Combined.display(self.CombinedFactorVector2)
+
+            self.window.t2r1Time.display(self.timeFactorVector3)
+            self.window.t2r1Frecuency.display(self.FrecuencyFactorVector3)
+            self.window.t2r1Combined.display(self.CombinedFactorVector3) 
+
+            self.window.t2r2Time.display(self.timeFactorVector4)
+            self.window.t2r2Frecuency.display(self.FrecuencyFactorVector4)
+            self.window.t2r2Combined.display(self.CombinedFactorVector4)
+
+            #graficate each response:
+            self.my_plot_t1r1.update_data(self.t, vecs[0])
+            self.my_plot_t1r2.update_data(self.t, vecs[1])
+            self.my_plot_t2r1.update_data(self.t, vecs[2])
+            self.my_plot_t2r2.update_data(self.t, vecs[3])
 
         print("data adquired")
-
-    def configureSensor(self):
-        pass
+       
 
     def identify_fuction(self):
         vecs = self.get_dat()
@@ -266,6 +339,4 @@ class multiPlot2D(pg.GraphicsWindow):
         self.traceT1R1.setData(dataset_x, datasets_y[0])
         self.traceT1R2.setData(dataset_x, datasets_y[1])
         self.traceT2R1.setData(dataset_x, datasets_y[2])
-        self.traceT2R2.setData(dataset_x, datasets_y[3])
- 
-
+        self.traceT2R2.setData(dataset_x, datasets_y[3])       

@@ -12,10 +12,9 @@ class Temporal_extract(object):
     def temporal_extraction(self,y,Fs):
         
         resta = self.resta
-        dat = [abs(a) for a in y] # convertir yf a lista
+        dat = [abs(a) for a in y] 
         max_valor = max(dat)
-        min_valor = min(dat)
-        valor_min_dat = (max_valor+min_valor)/4
+        valor_min_dat = (max_valor)/4
         valores_max = []
         index_valores_max = []
         v = 0

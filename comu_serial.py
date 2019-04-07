@@ -1,7 +1,7 @@
 import serial
 
 def setup_serial_data():
-    s = serial.Serial('COM6', baudrate=9600) 
+    s = serial.Serial('COM6', baudrate=9600)#, timeout = 4.07) 
     N = 4
     data_str = []
     i = 0
@@ -18,7 +18,7 @@ def setup_serial_data():
     #print(data_setup)
 
 def get_serial_data():
-    s = serial.Serial('COM6', baudrate=9600) 
+    s = serial.Serial('COM6', baudrate=9600)#, timeout = 4.07) 
     N = 185
     M = 4*N+28
     data_str = []
@@ -26,7 +26,7 @@ def get_serial_data():
     while i <= M :
         data = s.readline()
         data_str.append(data.decode('utf-8')) 
-        if i == M:
+        if i == M:# hacer null el resto de trama si es que solo se envia una o 2 tramas
             break
         i += 1
     data_str = [x.rstrip() for x in data_str]        
