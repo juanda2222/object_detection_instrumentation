@@ -24,7 +24,7 @@ def main():
     my_controller.add_view_model(my_view, my_model)  # for the bilateral comunication
 
     sys.exit(app.exec_())
-    
+    print("executed")
 
 if __name__ == "__main__":
     main()

@@ -353,8 +353,8 @@
            <number>0</number>
           </property>
           <item>
-           <widget class="QWidget" name="widget_2" native="true">
-            <layout class="QHBoxLayout" name="horizontalLayout">
+           <widget class="QWidget" name="widget" native="true">
+            <layout class="QGridLayout" name="gridLayout_6">
              <property name="leftMargin">
               <number>0</number>
              </property>
@@ -367,60 +367,143 @@
              <property name="bottomMargin">
               <number>0</number>
              </property>
-             <item>
-              <widget class="QGroupBox" name="groupBox">
+             <item row="0" column="0">
+              <widget class="QGroupBox" name="asdf">
                <property name="title">
                 <string>Response 1 ( T1 - R1 )</string>
                </property>
-               <layout class="QHBoxLayout" name="horizontalLayout_10">
+               <layout class="QVBoxLayout" name="verticalLayout_19">
+                <property name="leftMargin">
+                 <number>5</number>
+                </property>
+                <property name="topMargin">
+                 <number>5</number>
+                </property>
+                <property name="rightMargin">
+                 <number>5</number>
+                </property>
+                <property name="bottomMargin">
+                 <number>5</number>
+                </property>
                 <item>
-                 <widget class="QWidget" name="t1r1Graph" native="true"/>
+                 <widget class="QWidget" name="t1r1" native="true">
+                  <layout class="QHBoxLayout" name="horizontalLayout_15">
+                   <property name="spacing">
+                    <number>0</number>
+                   </property>
+                   <property name="leftMargin">
+                    <number>0</number>
+                   </property>
+                   <property name="topMargin">
+                    <number>0</number>
+                   </property>
+                   <property name="rightMargin">
+                    <number>0</number>
+                   </property>
+                   <property name="bottomMargin">
+                    <number>0</number>
+                   </property>
+                   <item>
+                    <widget class="QWidget" name="t1r1Graph" native="true"/>
+                   </item>
+                   <item>
+                    <widget class="QWidget" name="widget_18" native="true">
+                     <property name="maximumSize">
+                      <size>
+                       <width>100</width>
+                       <height>16777215</height>
+                      </size>
+                     </property>
+                     <layout class="QVBoxLayout" name="verticalLayout_4">
+                      <item>
+                       <widget class="QLabel" name="label_30">
+                        <property name="text">
+                         <string>Time factor</string>
+                        </property>
+                       </widget>
+                      </item>
+                      <item>
+                       <widget class="QLCDNumber" name="t1r1Time"/>
+                      </item>
+                      <item>
+                       <widget class="QLabel" name="label_31">
+                        <property name="text">
+                         <string>Frecuency Factor</string>
+                        </property>
+                       </widget>
+                      </item>
+                      <item>
+                       <widget class="QLCDNumber" name="t1r1Frecuency"/>
+                      </item>
+                      <item>
+                       <widget class="QLabel" name="label_32">
+                        <property name="text">
+                         <string>Combined Factor</string>
+                        </property>
+                       </widget>
+                      </item>
+                      <item>
+                       <widget class="QLCDNumber" name="t1r1Combined"/>
+                      </item>
+                     </layout>
+                    </widget>
+                   </item>
+                  </layout>
+                 </widget>
                 </item>
                 <item>
-                 <widget class="QWidget" name="widget_18" native="true">
-                  <property name="maximumSize">
-                   <size>
-                    <width>100</width>
-                    <height>16777215</height>
-                   </size>
-                  </property>
-                  <layout class="QVBoxLayout" name="verticalLayout_4">
+                 <widget class="QWidget" name="widget_2" native="true">
+                  <layout class="QHBoxLayout" name="horizontalLayout">
+                   <property name="spacing">
+                    <number>0</number>
+                   </property>
+                   <property name="leftMargin">
+                    <number>0</number>
+                   </property>
+                   <property name="topMargin">
+                    <number>0</number>
+                   </property>
+                   <property name="rightMargin">
+                    <number>0</number>
+                   </property>
+                   <property name="bottomMargin">
+                    <number>0</number>
+                   </property>
                    <item>
-                    <widget class="QLabel" name="label_30">
-                     <property name="text">
-                      <string>Time factor</string>
+                    <spacer name="horizontalSpacer_9">
+                     <property name="orientation">
+                      <enum>Qt::Horizontal</enum>
                      </property>
-                    </widget>
-                   </item>
-                   <item>
-                    <widget class="QLCDNumber" name="t1r1Time"/>
-                   </item>
-                   <item>
-                    <widget class="QLabel" name="label_31">
-                     <property name="text">
-                      <string>Frecuency Factor</string>
+                     <property name="sizeHint" stdset="0">
+                      <size>
+                       <width>147</width>
+                       <height>20</height>
+                      </size>
                      </property>
-                    </widget>
-                   </item>
-                   <item>
-                    <widget class="QLCDNumber" name="t1r1Frecuency"/>
-                   </item>
-                   <item>
-                    <widget class="QLabel" name="label_32">
-                     <property name="text">
-                      <string>Combined Factor</string>
-                     </property>
-                    </widget>
-                   </item>
-                   <item>
-                    <widget class="QLCDNumber" name="t1r1Combined"/>
+                    </spacer>
                    </item>
                    <item>
                     <widget class="QCheckBox" name="t1r1Enable">
                      <property name="text">
                       <string>enable this</string>
                      </property>
+                     <property name="checked">
+                      <bool>true</bool>
+                     </property>
                     </widget>
+                   </item>
+                   <item>
+                    <spacer name="horizontalSpacer_10">
+                     <property name="orientation">
+                      <enum>Qt::Horizontal</enum>
+                     </property>
+                     <property name="sizeHint" stdset="0">
+                      <size>
+                       <width>146</width>
+                       <height>20</height>
+                      </size>
+                     </property>
+                    </spacer>
                    </item>
                   </layout>
                  </widget>
@@ -428,60 +511,143 @@
                </layout>
               </widget>
              </item>
-             <item>
-              <widget class="QGroupBox" name="groupBox_4">
+             <item row="0" column="1">
+              <widget class="QGroupBox" name="asdfw">
                <property name="title">
                 <string>Response 2 ( T1 - R2 )</string>
                </property>
-               <layout class="QHBoxLayout" name="horizontalLayout_11">
+               <layout class="QVBoxLayout" name="verticalLayout_6">
+                <property name="leftMargin">
+                 <number>5</number>
+                </property>
+                <property name="topMargin">
+                 <number>5</number>
+                </property>
+                <property name="rightMargin">
+                 <number>5</number>
+                </property>
+                <property name="bottomMargin">
+                 <number>5</number>
+                </property>
                 <item>
-                 <widget class="QWidget" name="t1r2Graph" native="true"/>
+                 <widget class="QWidget" name="t1r2" native="true">
+                  <layout class="QHBoxLayout" name="horizontalLayout_10">
+                   <property name="spacing">
+                    <number>0</number>
+                   </property>
+                   <property name="leftMargin">
+                    <number>0</number>
+                   </property>
+                   <property name="topMargin">
+                    <number>0</number>
+                   </property>
+                   <property name="rightMargin">
+                    <number>0</number>
+                   </property>
+                   <property name="bottomMargin">
+                    <number>0</number>
+                   </property>
+                   <item>
+                    <widget class="QWidget" name="t1r2Graph" native="true"/>
+                   </item>
+                   <item>
+                    <widget class="QWidget" name="widget_23" native="true">
+                     <property name="maximumSize">
+                      <size>
+                       <width>100</width>
+                       <height>16777215</height>
+                      </size>
+                     </property>
+                     <layout class="QVBoxLayout" name="verticalLayout_5">
+                      <item>
+                       <widget class="QLabel" name="label_33">
+                        <property name="text">
+                         <string>Time Factor </string>
+                        </property>
+                       </widget>
+                      </item>
+                      <item>
+                       <widget class="QLCDNumber" name="t1r2Time"/>
+                      </item>
+                      <item>
+                       <widget class="QLabel" name="label_34">
+                        <property name="text">
+                         <string>Frecuency Factor</string>
+                        </property>
+                       </widget>
+                      </item>
+                      <item>
+                       <widget class="QLCDNumber" name="t1r2Frecuency"/>
+                      </item>
+                      <item>
+                       <widget class="QLabel" name="label_35">
+                        <property name="text">
+                         <string>Combined Factor</string>
+                        </property>
+                       </widget>
+                      </item>
+                      <item>
+                       <widget class="QLCDNumber" name="t1r2Combined"/>
+                      </item>
+                     </layout>
+                    </widget>
+                   </item>
+                  </layout>
+                 </widget>
                 </item>
                 <item>
-                 <widget class="QWidget" name="widget_23" native="true">
-                  <property name="maximumSize">
-                   <size>
-                    <width>100</width>
-                    <height>16777215</height>
-                   </size>
-                  </property>
-                  <layout class="QVBoxLayout" name="verticalLayout_5">
+                 <widget class="QWidget" name="widget_10" native="true">
+                  <layout class="QHBoxLayout" name="horizontalLayout_2">
+                   <property name="spacing">
+                    <number>0</number>
+                   </property>
+                   <property name="leftMargin">
+                    <number>0</number>
+                   </property>
+                   <property name="topMargin">
+                    <number>0</number>
+                   </property>
+                   <property name="rightMargin">
+                    <number>0</number>
+                   </property>
+                   <property name="bottomMargin">
+                    <number>0</number>
+                   </property>
                    <item>
-                    <widget class="QLabel" name="label_33">
-                     <property name="text">
-                      <string>Time Factor </string>
+                    <spacer name="horizontalSpacer_11">
+                     <property name="orientation">
+                      <enum>Qt::Horizontal</enum>
                      </property>
-                    </widget>
-                   </item>
-                   <item>
-                    <widget class="QLCDNumber" name="t1r2Time"/>
-                   </item>
-                   <item>
-                    <widget class="QLabel" name="label_34">
-                     <property name="text">
-                      <string>Frecuency Factor</string>
+                     <property name="sizeHint" stdset="0">
+                      <size>
+                       <width>211</width>
+                       <height>20</height>
+                      </size>
                      </property>
-                    </widget>
-                   </item>
-                   <item>
-                    <widget class="QLCDNumber" name="t1r2Frecuency"/>
-                   </item>
-                   <item>
-                    <widget class="QLabel" name="label_35">
-                     <property name="text">
-                      <string>Combined Factor</string>
-                     </property>
-                    </widget>
-                   </item>
-                   <item>
-                    <widget class="QLCDNumber" name="t1r2Combined"/>
+                    </spacer>
                    </item>
                    <item>
                     <widget class="QCheckBox" name="t1r2Enable">
                      <property name="text">
                       <string>enable this</string>
                      </property>
+                     <property name="checked">
+                      <bool>true</bool>
+                     </property>
                     </widget>
+                   </item>
+                   <item>
+                    <spacer name="horizontalSpacer_12">
+                     <property name="orientation">
+                      <enum>Qt::Horizontal</enum>
+                     </property>
+                     <property name="sizeHint" stdset="0">
+                      <size>
+                       <width>211</width>
+                       <height>20</height>
+                      </size>
+                     </property>
+                    </spacer>
                    </item>
                   </layout>
                  </widget>
@@ -489,78 +655,143 @@
                </layout>
               </widget>
              </item>
-            </layout>
-           </widget>
-          </item>
-          <item>
-           <widget class="QWidget" name="widget" native="true">
-            <layout class="QHBoxLayout" name="horizontalLayout_2">
-             <property name="leftMargin">
-              <number>0</number>
-             </property>
-             <property name="topMargin">
-              <number>0</number>
-             </property>
-             <property name="rightMargin">
-              <number>0</number>
-             </property>
-             <property name="bottomMargin">
-              <number>0</number>
-             </property>
-             <item>
-              <widget class="QGroupBox" name="groupBox_2">
+             <item row="1" column="0">
+              <widget class="QGroupBox" name="f22e">
                <property name="title">
                 <string>Response 3 ( T2 - R1 )</string>
                </property>
-               <layout class="QHBoxLayout" name="horizontalLayout_9">
+               <layout class="QVBoxLayout" name="verticalLayout_14">
+                <property name="leftMargin">
+                 <number>5</number>
+                </property>
+                <property name="topMargin">
+                 <number>5</number>
+                </property>
+                <property name="rightMargin">
+                 <number>5</number>
+                </property>
+                <property name="bottomMargin">
+                 <number>5</number>
+                </property>
                 <item>
-                 <widget class="QWidget" name="t2r1Graph" native="true"/>
+                 <widget class="QWidget" name="t2r1" native="true">
+                  <layout class="QHBoxLayout" name="horizontalLayout_11">
+                   <property name="spacing">
+                    <number>0</number>
+                   </property>
+                   <property name="leftMargin">
+                    <number>0</number>
+                   </property>
+                   <property name="topMargin">
+                    <number>0</number>
+                   </property>
+                   <property name="rightMargin">
+                    <number>0</number>
+                   </property>
+                   <property name="bottomMargin">
+                    <number>0</number>
+                   </property>
+                   <item>
+                    <widget class="QWidget" name="t2r1Graph" native="true"/>
+                   </item>
+                   <item>
+                    <widget class="QWidget" name="widget_24" native="true">
+                     <property name="maximumSize">
+                      <size>
+                       <width>100</width>
+                       <height>16777215</height>
+                      </size>
+                     </property>
+                     <layout class="QVBoxLayout" name="verticalLayout_8">
+                      <item>
+                       <widget class="QLabel" name="label_36">
+                        <property name="text">
+                         <string>Time Factor </string>
+                        </property>
+                       </widget>
+                      </item>
+                      <item>
+                       <widget class="QLCDNumber" name="t2r1Time"/>
+                      </item>
+                      <item>
+                       <widget class="QLabel" name="label_37">
+                        <property name="text">
+                         <string>Frecuency Factor</string>
+                        </property>
+                       </widget>
+                      </item>
+                      <item>
+                       <widget class="QLCDNumber" name="t2r1Frecuency"/>
+                      </item>
+                      <item>
+                       <widget class="QLabel" name="label_43">
+                        <property name="text">
+                         <string>Combined Factor</string>
+                        </property>
+                       </widget>
+                      </item>
+                      <item>
+                       <widget class="QLCDNumber" name="t2r1Combined"/>
+                      </item>
+                     </layout>
+                    </widget>
+                   </item>
+                  </layout>
+                 </widget>
                 </item>
                 <item>
-                 <widget class="QWidget" name="widget_24" native="true">
-                  <property name="maximumSize">
-                   <size>
-                    <width>100</width>
-                    <height>16777215</height>
-                   </size>
-                  </property>
-                  <layout class="QVBoxLayout" name="verticalLayout_8">
+                 <widget class="QWidget" name="widget_26" native="true">
+                  <layout class="QHBoxLayout" name="horizontalLayout_14">
+                   <property name="spacing">
+                    <number>0</number>
+                   </property>
+                   <property name="leftMargin">
+                    <number>0</number>
+                   </property>
+                   <property name="topMargin">
+                    <number>0</number>
+                   </property>
+                   <property name="rightMargin">
+                    <number>0</number>
+                   </property>
+                   <property name="bottomMargin">
+                    <number>0</number>
+                   </property>
                    <item>
-                    <widget class="QLabel" name="label_36">
-                     <property name="text">
-                      <string>Time Factor </string>
+                    <spacer name="horizontalSpacer_15">
+                     <property name="orientation">
+                      <enum>Qt::Horizontal</enum>
                      </property>
-                    </widget>
-                   </item>
-                   <item>
-                    <widget class="QLCDNumber" name="t2r1Time"/>
-                   </item>
-                   <item>
-                    <widget class="QLabel" name="label_37">
-                     <property name="text">
-                      <string>Frecuency Factor</string>
+                     <property name="sizeHint" stdset="0">
+                      <size>
+                       <width>211</width>
+                       <height>20</height>
+                      </size>
                      </property>
-                    </widget>
-                   </item>
-                   <item>
-                    <widget class="QLCDNumber" name="t2r1Frecuency"/>
-                   </item>
-                   <item>
-                    <widget class="QLabel" name="label_43">
-                     <property name="text">
-                      <string>Combined Factor</string>
-                     </property>
-                    </widget>
-                   </item>
-                   <item>
-                    <widget class="QLCDNumber" name="t2r1Combined"/>
+                    </spacer>
                    </item>
                    <item>
                     <widget class="QCheckBox" name="t2r1Enable">
                      <property name="text">
                       <string>enable this</string>
                      </property>
+                     <property name="checked">
+                      <bool>true</bool>
+                     </property>
                     </widget>
+                   </item>
+                   <item>
+                    <spacer name="horizontalSpacer_16">
+                     <property name="orientation">
+                      <enum>Qt::Horizontal</enum>
+                     </property>
+                     <property name="sizeHint" stdset="0">
+                      <size>
+                       <width>211</width>
+                       <height>20</height>
+                      </size>
+                     </property>
+                    </spacer>
                    </item>
                   </layout>
                  </widget>
@@ -568,60 +799,143 @@
                </layout>
               </widget>
              </item>
-             <item>
-              <widget class="QGroupBox" name="groupBox_3">
+             <item row="1" column="1">
+              <widget class="QGroupBox" name="h4tge">
                <property name="title">
                 <string>Response 4 ( T2 - R2 )</string>
                </property>
-               <layout class="QHBoxLayout" name="horizontalLayout_12">
+               <layout class="QVBoxLayout" name="verticalLayout_18">
+                <property name="leftMargin">
+                 <number>5</number>
+                </property>
+                <property name="topMargin">
+                 <number>5</number>
+                </property>
+                <property name="rightMargin">
+                 <number>5</number>
+                </property>
+                <property name="bottomMargin">
+                 <number>5</number>
+                </property>
                 <item>
-                 <widget class="QWidget" name="t2r2Graph" native="true"/>
+                 <widget class="QWidget" name="t2r2" native="true">
+                  <layout class="QHBoxLayout" name="horizontalLayout_9">
+                   <property name="spacing">
+                    <number>0</number>
+                   </property>
+                   <property name="leftMargin">
+                    <number>0</number>
+                   </property>
+                   <property name="topMargin">
+                    <number>0</number>
+                   </property>
+                   <property name="rightMargin">
+                    <number>0</number>
+                   </property>
+                   <property name="bottomMargin">
+                    <number>0</number>
+                   </property>
+                   <item>
+                    <widget class="QWidget" name="t2r2Graph" native="true"/>
+                   </item>
+                   <item>
+                    <widget class="QWidget" name="widget_25" native="true">
+                     <property name="maximumSize">
+                      <size>
+                       <width>100</width>
+                       <height>16777215</height>
+                      </size>
+                     </property>
+                     <layout class="QVBoxLayout" name="verticalLayout_9">
+                      <item>
+                       <widget class="QLabel" name="label_44">
+                        <property name="text">
+                         <string>Time Factor </string>
+                        </property>
+                       </widget>
+                      </item>
+                      <item>
+                       <widget class="QLCDNumber" name="t2r2Time"/>
+                      </item>
+                      <item>
+                       <widget class="QLabel" name="label_45">
+                        <property name="text">
+                         <string>Frecuency Factor</string>
+                        </property>
+                       </widget>
+                      </item>
+                      <item>
+                       <widget class="QLCDNumber" name="t2r2Frecuency"/>
+                      </item>
+                      <item>
+                       <widget class="QLabel" name="label_46">
+                        <property name="text">
+                         <string>Combined Factor</string>
+                        </property>
+                       </widget>
+                      </item>
+                      <item>
+                       <widget class="QLCDNumber" name="t2r2Combined"/>
+                      </item>
+                     </layout>
+                    </widget>
+                   </item>
+                  </layout>
+                 </widget>
                 </item>
                 <item>
-                 <widget class="QWidget" name="widget_25" native="true">
-                  <property name="maximumSize">
-                   <size>
-                    <width>100</width>
-                    <height>16777215</height>
-                   </size>
-                  </property>
-                  <layout class="QVBoxLayout" name="verticalLayout_9">
+                 <widget class="QWidget" name="widget_20" native="true">
+                  <layout class="QHBoxLayout" name="horizontalLayout_5">
+                   <property name="spacing">
+                    <number>0</number>
+                   </property>
+                   <property name="leftMargin">
+                    <number>0</number>
+                   </property>
+                   <property name="topMargin">
+                    <number>0</number>
+                   </property>
+                   <property name="rightMargin">
+                    <number>0</number>
+                   </property>
+                   <property name="bottomMargin">
+                    <number>0</number>
+                   </property>
                    <item>
-                    <widget class="QLabel" name="label_44">
-                     <property name="text">
-                      <string>Time Factor </string>
+                    <spacer name="horizontalSpacer_13">
+                     <property name="orientation">
+                      <enum>Qt::Horizontal</enum>
                      </property>
-                    </widget>
-                   </item>
-                   <item>
-                    <widget class="QLCDNumber" name="t2r2Time"/>
-                   </item>
-                   <item>
-                    <widget class="QLabel" name="label_45">
-                     <property name="text">
-                      <string>Frecuency Factor</string>
+                     <property name="sizeHint" stdset="0">
+                      <size>
+                       <width>211</width>
+                       <height>20</height>
+                      </size>
                      </property>
-                    </widget>
-                   </item>
-                   <item>
-                    <widget class="QLCDNumber" name="t2r2Frecuency"/>
-                   </item>
-                   <item>
-                    <widget class="QLabel" name="label_46">
-                     <property name="text">
-                      <string>Combined Factor</string>
-                     </property>
-                    </widget>
-                   </item>
-                   <item>
-                    <widget class="QLCDNumber" name="t2r2Combined"/>
+                    </spacer>
                    </item>
                    <item>
                     <widget class="QCheckBox" name="t2r2Enable">
                      <property name="text">
                       <string>enable this</string>
                      </property>
+                     <property name="checked">
+                      <bool>true</bool>
+                     </property>
                     </widget>
+                   </item>
+                   <item>
+                    <spacer name="horizontalSpacer_14">
+                     <property name="orientation">
+                      <enum>Qt::Horizontal</enum>
+                     </property>
+                     <property name="sizeHint" stdset="0">
+                      <size>
+                       <width>211</width>
+                       <height>20</height>
+                      </size>
+                     </property>
+                    </spacer>
                    </item>
                   </layout>
                  </widget>
@@ -654,7 +968,7 @@
           <enum>QTabWidget::North</enum>
          </property>
          <property name="currentIndex">
-          <number>1</number>
+          <number>0</number>
          </property>
          <widget class="QWidget" name="Object1">
           <attribute name="title">
@@ -686,6 +1000,52 @@
              </property>
             </spacer>
            </item>
+           <item row="1" column="2">
+            <spacer name="horizontalSpacer_2">
+             <property name="orientation">
+              <enum>Qt::Horizontal</enum>
+             </property>
+             <property name="sizeHint" stdset="0">
+              <size>
+               <width>57</width>
+               <height>20</height>
+              </size>
+             </property>
+            </spacer>
+           </item>
+           <item row="0" column="1">
+            <spacer name="verticalSpacer">
+             <property name="orientation">
+              <enum>Qt::Vertical</enum>
+             </property>
+             <property name="sizeHint" stdset="0">
+              <size>
+               <width>20</width>
+               <height>101</height>
+              </size>
+             </property>
+            </spacer>
+           </item>
+           <item row="3" column="0" colspan="3">
+            <widget class="QPushButton" name="object1Save">
+             <property name="text">
+              <string>Save as object 1</string>
+             </property>
+            </widget>
+           </item>
+           <item row="2" column="1">
+            <spacer name="verticalSpacer_2">
+             <property name="orientation">
+              <enum>Qt::Vertical</enum>
+             </property>
+             <property name="sizeHint" stdset="0">
+              <size>
+               <width>20</width>
+               <height>101</height>
+              </size>
+             </property>
+            </spacer>
+           </item>
            <item row="1" column="1">
             <widget class="QWidget" name="widget_17" native="true">
              <layout class="QVBoxLayout" name="verticalLayout_13">
@@ -700,7 +1060,7 @@
                </widget>
               </item>
               <item>
-               <widget class="QLabel" name="object1TimeVector">
+               <widget class="QLabel" name="object1Time">
                 <property name="font">
                  <font>
                   <pointsize>12</pointsize>
@@ -725,7 +1085,7 @@
                </widget>
               </item>
               <item>
-               <widget class="QLabel" name="object1FrecuencyVector">
+               <widget class="QLabel" name="object1Frecuency">
                 <property name="font">
                  <font>
                   <pointsize>12</pointsize>
@@ -750,7 +1110,7 @@
                </widget>
               </item>
               <item>
-               <widget class="QLabel" name="object1CombinedVerctor">
+               <widget class="QLabel" name="object1Combined">
                 <property name="font">
                  <font>
                   <pointsize>12</pointsize>
@@ -775,7 +1135,23 @@
                </widget>
               </item>
               <item>
-               <widget class="QLineEdit" name="object1Name"/>
+               <widget class="QLineEdit" name="object1Name">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                  <horstretch>0</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
+                </property>
+                <property name="layoutDirection">
+                 <enum>Qt::LeftToRight</enum>
+                </property>
+                <property name="alignment">
+                 <set>Qt::AlignCenter</set>
+                </property>
+                <property name="readOnly">
+                 <bool>false</bool>
+                </property>
+               </widget>
               </item>
               <item>
                <widget class="Line" name="line_5">
@@ -800,52 +1176,6 @@
                </widget>
               </item>
              </layout>
-            </widget>
-           </item>
-           <item row="2" column="1">
-            <spacer name="verticalSpacer_2">
-             <property name="orientation">
-              <enum>Qt::Vertical</enum>
-             </property>
-             <property name="sizeHint" stdset="0">
-              <size>
-               <width>20</width>
-               <height>101</height>
-              </size>
-             </property>
-            </spacer>
-           </item>
-           <item row="0" column="1">
-            <spacer name="verticalSpacer">
-             <property name="orientation">
-              <enum>Qt::Vertical</enum>
-             </property>
-             <property name="sizeHint" stdset="0">
-              <size>
-               <width>20</width>
-               <height>101</height>
-              </size>
-             </property>
-            </spacer>
-           </item>
-           <item row="1" column="2">
-            <spacer name="horizontalSpacer_2">
-             <property name="orientation">
-              <enum>Qt::Horizontal</enum>
-             </property>
-             <property name="sizeHint" stdset="0">
-              <size>
-               <width>57</width>
-               <height>20</height>
-              </size>
-             </property>
-            </spacer>
-           </item>
-           <item row="3" column="0" colspan="3">
-            <widget class="QPushButton" name="object1Save">
-             <property name="text">
-              <string>Save as object 1</string>
-             </property>
             </widget>
            </item>
           </layout>
@@ -969,7 +1299,17 @@
                </widget>
               </item>
               <item>
-               <widget class="QLineEdit" name="object2Name"/>
+               <widget class="QLineEdit" name="object2Name">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                  <horstretch>0</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
+                </property>
+                <property name="alignment">
+                 <set>Qt::AlignCenter</set>
+                </property>
+               </widget>
               </item>
               <item>
                <widget class="Line" name="line_6">
@@ -1209,7 +1549,17 @@
                </widget>
               </item>
               <item>
-               <widget class="QLineEdit" name="object3Name"/>
+               <widget class="QLineEdit" name="object3Name">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                  <horstretch>0</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
+                </property>
+                <property name="alignment">
+                 <set>Qt::AlignCenter</set>
+                </property>
+               </widget>
               </item>
               <item>
                <widget class="Line" name="line_4">
