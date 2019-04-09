@@ -1,7 +1,6 @@
 import numpy as np
 import matplotlib.pyplot as plt
 from get_data import get_data
-from get_vector import get_vector 
 from scipy.signal import butter, lfilter, freqz
 
 
@@ -78,10 +77,9 @@ class Temporal_extract(object):
         """
         # misma historia con este codigo, no se puede leer 
         resta = self.resta
-        dat = [abs(a) for a in y] # convertir yf a lista
+        dat = [abs(a) for a in y] 
         max_valor = max(dat)
-        min_valor = min(dat)
-        valor_min_dat = (max_valor+min_valor)/4
+        valor_min_dat = (max_valor)/4
         valores_max = []
         index_valores_max = []
         v = 0
@@ -91,8 +89,6 @@ class Temporal_extract(object):
                 index_valores_max.append(v)
             v += 1            
         vector_dt = [1/Fs*m for m in index_valores_max.copy()]
-        #dt = sum(vector_dt)/len(vector_dt)
-        #return dt
         index_valores_max.append(0)
         index_valores_max = [1/Fs*a for a in index_valores_max]
         vector_dt.insert(0,0)

@@ -1,21 +1,22 @@
-
+#
+#   ||||||||   || |||||| ||||||
+#      ||      || ||  ||   ||
+#      ||      || ||||||   ||
+#   |||||   ||||| ||  ||   ||
+# Author: Jaime Jjat, Juan David Ramirez
+# Date: Abril de 2019
+# e-mail: userjjat00@gmail.com, juan.ramirez.villegas@correounivalle.edu.co
+# Youtube: https://www.youtube.com/channel/UC_SdV1G11_uYdfCDWrbLVWg/videos?view_as=subscriber
+#
 import sys
 from PySide2.QtWidgets import QApplication
 from view import View
 from model import Model
 from controller import Controller
 
-
-#custom qt widgets (chek box):    http://doc.qt.io/archives/qt-4.8/stylesheet-examples.html
-#                                 https://doc.qt.io/archives/qq/qq20-qss.html
-#                                 https://stackoverflow.com/questions/40672817/how-to-make-color-for-checked-qradiobutton-but-looks-like-standard
-#                                 http://doc.qt.io/qt-5/stylesheet-examples.html
-
-
 def main():
 
     app = QApplication(sys.argv)
-
 
     my_controller = Controller()
     my_view = View("./form.ui", my_controller)

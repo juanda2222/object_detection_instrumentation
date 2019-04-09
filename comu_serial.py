@@ -1,7 +1,8 @@
-import serial as seri
+
+from serial import Serial
 
 def setup_serial_data():
-    s = seri.Serial('COM6', baudrate=9600) 
+    s = Serial('COM6', baudrate=9600) 
     N = 4
     data_str = []
     i = 0
@@ -15,10 +16,10 @@ def setup_serial_data():
     data_setup = list(map(int,data_str))
     ##s.close()
     return data_setup
-    #print(data_setup)
+
 
 def get_serial_data():
-    s = seri.Serial('COM6', baudrate=9600) 
+    s = Serial('COM6', baudrate=9600) 
     N = 185
     M = 4*N+28
     data_str = []
@@ -32,7 +33,3 @@ def get_serial_data():
     data_str = [x.rstrip() for x in data_str]        
     data_int = list(map(int,data_str))
     return data_int
-    #print(data_int)
-    #print(len(data_int))
-#get_serial_data()
-#setup_serial_data()

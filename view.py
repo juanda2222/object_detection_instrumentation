@@ -5,14 +5,20 @@ import numpy as np
 import random
 
 #local libraries 
-from extract_features import Extract_features
-from frecuency_extraction import Frecuency_extracion
 from temporal_extraction import Temporal_extract
 from energy_extraction import Energy_signal
 from get_data import get_data
+
 from myNeural import Neural_Network
 from temporal_extraction import get_butter_lowpass_coef
 from temporal_extraction import butter_lowpass_filter
+
+from frecuency_extraction import Frecuency_extraction
+from extract_features import Extract_features
+
+# neural network de jaime
+from neural_lib import Neural_lib
+
 
 # for gui tools:
 from PySide2 import QtCore
@@ -25,10 +31,6 @@ from PySide2.QtUiTools import *
 from PySide2 import QtUiTools
 
 import pyqtgraph as pg
-# for plotting:
-#import matplotlib
-
-
 import numpy as np
 #from PySide.QtGui import QVBoxLayout
 from numpy import arange, sin, cos, pi
@@ -104,11 +106,6 @@ class View(QtCore.QObject):  # hereda de la clase QtGui.QmainWindow
 
         #from the configuration pdu:
         self.frec_muestreo = 8928
-        self.numBits_dato = 8
-        self.ref_volt = 4
-
-        #From each data pack:
-        self.ganancia = 200
 
         #for procesing the data:
         self.t = None #sample rate
@@ -117,10 +114,10 @@ class View(QtCore.QObject):  # hereda de la clase QtGui.QmainWindow
         # create the  diferent neural networks:
         self.num_trains = 100000
         self.noise_percentage = 0.05
-        self.neural_t1r1 = Neural_Network(name="t1r1", vector_size = 1, num_characteristics = 3, num_objects = 3)
-        self.neural_t1r2 = Neural_Network(name="t1r2", vector_size = 2, num_characteristics = 3, num_objects = 3)
-        self.neural_t2r1 = Neural_Network(name="t2r1", vector_size = 2, num_characteristics = 3, num_objects = 3)
-        self.neural_t2r2 = Neural_Network(name="t2r2", vector_size = 4, num_characteristics = 3, num_objects = 3)
+        self.neural_t1r1 = Neural_lib(neuralName="t1r1", numIn=3)
+        self.neural_t1r2 = Neural_lib(neuralName="t1r2", numIn=6)
+        self.neural_t2r1 = Neural_lib(neuralName="t2r1", numIn=6)
+        self.neural_t2r2 = Neural_lib(neuralName="t2r2", numIn=12)
 
         self.window.show()
         print("view init done!")
@@ -173,7 +170,7 @@ class View(QtCore.QObject):  # hereda de la clase QtGui.QmainWindow
             print("next")
 
     def saveObjectHandler (self, object_to_save):
-        
+
         # check problems:
         if  self.sensorType == MODE_NONE:
             msgBox = QtGui.QMessageBox()
@@ -209,8 +206,10 @@ class View(QtCore.QObject):  # hereda de la clase QtGui.QmainWindow
         msgBox.setDefaultButton(QtGui.QMessageBox.Yes)
         ret = msgBox.exec_()
         
-        if ret == QtGui.QMessageBox.Yes:
+        if ret == QtGui.QMessageBox.Yes:    
+            
             # Save was clicked
+            name_object = self.window.lineEdit.text()
             print("save pressed")
 
             # save data depending on the object pressed
@@ -289,10 +288,10 @@ class View(QtCore.QObject):  # hereda de la clase QtGui.QmainWindow
 
         elif ret == QtGui.QMessageBox.Cancel:
             # cancel was clicked
-             print("canceled pressed")     
+            save = 0
+            print("canceled pressed")       
         else:
             print("canceled")
-
 
     def get_dat(self):
 
@@ -462,6 +461,8 @@ class View(QtCore.QObject):  # hereda de la clase QtGui.QmainWindow
             self.window.t2r2Combined.display(self.CombinedFactorVector4)
         
         print("data adquired")
+        #percentaje object from jaimen
+        #p_ob1,p_ob2,p_ob3,name_object = neural_network(dF,dT,E)
 
     def configureSensor(self, btPressed, typeAction):
 
@@ -622,7 +623,8 @@ class View(QtCore.QObject):  # hereda de la clase QtGui.QmainWindow
             ret = msgBox.exec_()
             return
 
-        actual_network.train_nTimes(x, y, nTimes, noise, self.training_handler)
+        actual_network.train_neural_network()
+        
         print("neural net trained :)")
         print("Input (scaled): \n" + str(x))
         print("Actual Output: \n" + str(y))
@@ -769,7 +771,6 @@ class View(QtCore.QObject):  # hereda de la clase QtGui.QmainWindow
         else:
             self.window.objectName_result.setText("None")
 
-    
 
 class singlePlot2D(pg.GraphicsWindow):
     def __init__(self, graphName, widget):
@@ -788,8 +789,6 @@ class singlePlot2D(pg.GraphicsWindow):
         # self.setParent(widget)
         layout.addWidget(self)
 
-        #self.plot_space.setWindowTitle('pyqtgraph example: Scrolling Plots')
-
         self.myPlot = self.addPlot()
         #self.myPlot.setLabels(left='Valor')
         self.myPlot.setLabels(bottom='tiempo')
@@ -798,8 +797,6 @@ class singlePlot2D(pg.GraphicsWindow):
 
     def update_data(self, x_vector, y_vector):
         self.newLine.setData(x_vector, y_vector)
-
-
 
 
 class multiPlot2D(pg.GraphicsWindow):
@@ -828,10 +825,8 @@ class multiPlot2D(pg.GraphicsWindow):
         # self.setParent(widget)
         layout.addWidget(self)
 
-        #self.plot_space.setWindowTitle('pyqtgraph example: Scrolling Plots')
-
         self.myPlot = self.addPlot(title = graphName)
-        self.myPlot.setLabels(left='Valor')
+        #self.myPlot.setLabels(left='Valor')
         self.myPlot.setLabels(bottom='tiempo')
 
         self.traceT1R1 = self.myPlot.plot(pen = {'color': (255,115,117), 'width': 2} )
@@ -845,4 +840,3 @@ class multiPlot2D(pg.GraphicsWindow):
         self.traceT1R2.setData(dataset_x, datasets_y[1])
         self.traceT2R1.setData(dataset_x, datasets_y[2])
         self.traceT2R2.setData(dataset_x, datasets_y[3])
-    
