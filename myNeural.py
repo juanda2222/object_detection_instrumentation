@@ -10,7 +10,7 @@ class Neural_Network(object):
         #parameters (just 1 hidden size)
         self.name = name
         self.inputSize = vector_size * num_characteristics
-        self.hiddenSize = 6 #this is the medium space between the  input layer and the output
+        self.hiddenSize = 10 #this is the medium space between the  input layer and the output
         self.outputSize = num_objects
 
         #weights
@@ -53,18 +53,33 @@ class Neural_Network(object):
         o = self.forward(x)
         self.backward(x, y, o)
     
-    def train_nTimes(self, x, y, num_trains = 100000, noise_percentage = 0.05):
+    def train_nTimes(self, x, y, num_trains = 100000, noise_percentage = 0.05, funcPer=None):
         print("number of trains "+ str(num_trains))
         print("training started...")
         for i in range(num_trains): 
             # train 1 timex
             self.train(x + np.random.rand(self.outputSize, self.inputSize) * noise_percentage, y)
             # detects the percentage of the training
-            if i == int(num_trains*0.10): print("training at 10%...")
-            if i == int(num_trains*0.25): print("training at 25%...")
-            if i == int(num_trains*0.5): print("training at 50%...")
-            if i == int(num_trains*0.75): print("training at 75%...")
+            if i == int(num_trains*0.10): 
+                funcPer(10)
+            elif i == int(num_trains*0.20): 
+                funcPer(20)
+            elif i == int(num_trains*0.30): 
+                funcPer(30)
+            elif i == int(num_trains*0.40): 
+                funcPer(40)
+            elif i == int(num_trains*0.50): 
+                funcPer(50)
+            elif i == int(num_trains*0.60): 
+                funcPer(60)
+            elif i == int(num_trains*0.7): 
+                funcPer(70)
+            elif i == int(num_trains*0.8): 
+                funcPer(80)
+            elif i == int(num_trains*0.9): 
+                funcPer(90)
         print("training finished...")
+        funcPer(100)
 
     def saveWeights(self):  
         np.savetxt(self.name+"_w1.txt", self.W1, fmt="%s")

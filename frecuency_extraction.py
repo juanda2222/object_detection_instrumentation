@@ -20,13 +20,13 @@ class Frecuency_extracion(object):
         N = len(yf)
         yabs = np.abs(yf)
         average = np.mean(yabs)
-        normalized_yabs = yabs / np.max(yabs)
+        #normalized_yabs = yabs / np.max(yabs)
 
         # 2nd moment is (standard derivation)
         # Kurtosis is (moment = m): m4 / m2 ^ 2 
 
         # therefore the sample kurtosis is:
-        kurtosis = ( (N * (N+1) * (N-1) )/( (N-2) * (N-3)) ) * ( (np.sum( ( normalized_yabs - average)**4 ))/ (( np.sum( ( normalized_yabs - average)**2 ))** 2) )
+        kurtosis = ( (N * (N+1) * (N-1) )/( (N-2) * (N-3)) ) * ( (np.sum( ( yabs - average)**4 ))/ (( np.sum( ( yabs - average)**2 ))** 2) )
         
         #and the population kurtosis formula is:
         #kurtosis = N * ( (np.sum( ( normalized_yabs - average)**4 ))/ (( np.sum( ( normalized_yabs - average)**2 ))** 2) )

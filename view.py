@@ -11,6 +11,8 @@ from temporal_extraction import Temporal_extract
 from energy_extraction import Energy_signal
 from get_data import get_data
 from myNeural import Neural_Network
+from temporal_extraction import get_butter_lowpass_coef
+from temporal_extraction import butter_lowpass_filter
 
 # for gui tools:
 from PySide2 import QtCore
@@ -251,7 +253,7 @@ class View(QtCore.QObject):  # hereda de la clase QtGui.QmainWindow
             elif object_to_save == "3":
 
                 # save the text:
-                self.object_Name[2] = self.window.object1Name.text()
+                self.object_Name[2] = self.window.object3Name.text()
                 
                 # save the factors:
                 self.object3_timeFactorVector = [self.timeFactorVector1, self.timeFactorVector2, self.timeFactorVector3, self.timeFactorVector4]
@@ -311,33 +313,52 @@ class View(QtCore.QObject):  # hereda de la clase QtGui.QmainWindow
         """
         
         #simulate the data
-        self.s1,self.s2,self.s3,self.s4 = (None, None, None, None)
+        self.s1,self.s2,self.s3,self.s4 = [None, None, None, None]
 
-        sine_freq = 60
-        self.num_datos = 50 
+        sine_freq = 1000
+        self.num_datos = 50 # 185 
         self.n = np.arange(self.num_datos)
         self.t = self.n*(1/self.frec_muestreo)
 
         # create vectors depending on the 
         r = random.randint(0, 2)
         if r == 0:
-            self.s1 = sin(2 * pi * sine_freq * self.t) + (np.random.rand(self.num_datos))/0.9
-            self.s2 = cos(2 * pi * sine_freq * self.t) + (np.random.rand(self.num_datos))/3
-            self.s3 = sin(2 * pi * sine_freq * self.t) + cos(2 * pi * sine_freq * self.t) + (np.random.rand(self.num_datos))/4
-            self.s4 = sin(2 * pi * sine_freq * self.t) + sin(2 * pi * sine_freq/0.3 * self.t) + (np.random.rand(self.num_datos))/2
+            self.s1 = np.sin(2 * pi * sine_freq * self.t) 
+            self.s2 = cos(2 * pi * 0.5 *sine_freq * self.t) 
+            self.s3 = np.sin(2 * pi * 2*sine_freq * self.t) + cos(2 * pi * sine_freq*0.1 * self.t) 
+            self.s4 = np.sin(2 * pi * 2*sine_freq * self.t) + np.sin(2 * pi * sine_freq * self.t) 
         elif r == 1:
-            self.s1 = np.arctan(2 * pi * sine_freq * self.t) + (np.random.rand(self.num_datos))/0.9
-            self.s2 = np.arctan(2 * pi * sine_freq * self.t) + (np.random.rand(self.num_datos))/3
-            self.s3 = np.arctan(2 * pi * sine_freq * self.t) + np.arctan(2 * pi * sine_freq * self.t) + (np.random.rand(self.num_datos))/4
-            self.s4 = np.arctan(2 * pi * sine_freq * self.t) + np.arctan(2 * pi * sine_freq/0.3 * self.t) + (np.random.rand(self.num_datos))/2
+            self.s1 = np.arctan(2 * pi * 20 * sine_freq * self.t) + (np.random.rand(self.num_datos))*0.2
+            self.s2 = np.arctan(2 * pi * 200 * sine_freq * self.t) + (np.random.rand(self.num_datos))/10
+            self.s3 = np.arctan(2 * pi * 100 * sine_freq * self.t) + np.arctan(2 * pi * sine_freq * self.t) + (np.random.rand(self.num_datos))/100
+            self.s4 = np.arctan(2 * pi * 20 * sine_freq * self.t) + np.arctan(2 * pi * sine_freq/0.3 * self.t) + (np.random.rand(self.num_datos))/20
         elif r == 2:
-            self.s1 = np.tan(2 * pi * sine_freq * self.t) + np.tan(2 * pi * sine_freq *0.2 * self.t) + (np.random.rand(self.num_datos))/1.1
-            self.s2 = np.tan(2 * pi * sine_freq * self.t) + (np.random.rand(self.num_datos)) *0.5
-            self.s3 = np.tan(2 * pi * sine_freq * self.t) + (np.random.rand(self.num_datos))*1.01
-            self.s4 = np.tan(2 * pi * sine_freq * self.t) + (np.random.rand(self.num_datos))*1.2
+            self.s1 = np.tan(2 * pi * 2*sine_freq * self.t) + np.tan(2 * pi * sine_freq *0.2 * self.t) + (np.random.rand(self.num_datos))/0.1
+            self.s2 = np.tan(2 * pi * 5*sine_freq * self.t) + np.tan(2 * pi * 2 * sine_freq * self.t) + (np.random.rand(self.num_datos)) *0.5
+            self.s3 = np.tan(2 * pi * 6*sine_freq * self.t) + (np.random.rand(self.num_datos)) 
+            self.s4 = np.tan(2 * pi * sine_freq * self.t) + (np.random.rand(self.num_datos))*0.2
         
-        return (self.s1, self.s2, self.s3, self.s4)
 
+        vecs = [self.s1, self.s2, self.s3, self.s4]
+        filt_vecs = [None, None, None, None]
+        
+        for i in range(len(vecs)):
+            print("the vectoorrr data is")
+            print(vecs[i])
+            # Filter requirements.
+            order = 8
+            cutoff = 2000  # desired cutoff frequency of the low pass filter, Hz
+            multi_order = 5 # the order of the multiplication filter
+            
+            # Filter the output data
+            filter_y = butter_lowpass_filter(vecs[i], cutoff, self.frec_muestreo, order) # filter the input data
+            mult_filter = np.convolve(filter_y, np.full(multi_order, 1/multi_order), 'same')
+
+            filt_vecs[i] = mult_filter
+            print("the filtered data is")
+            print(filt_vecs[i])
+            
+        return filt_vecs
 
     def capture_data_function(self):
 
@@ -451,6 +472,7 @@ class View(QtCore.QObject):  # hereda de la clase QtGui.QmainWindow
         self.is_object1Saved = False
         self.is_object2Saved = False
         self.is_object3Saved = False
+        self.window.progressBar.setValue(0)
         
         # Disable data depending on the checkbox you activate
         if btPressed == "t1r1":
@@ -532,13 +554,12 @@ class View(QtCore.QObject):  # hereda de la clase QtGui.QmainWindow
         
         #testing constants
         nTimes =  100000
-        noise = 0
+        noise = 0.02
         
         #create the output corresponding on each object
         y = np.array([[1, 0, 0], [0, 1, 0], [0, 0, 1]],  dtype=float)
 
         print(self.object1_timeFactorVector)
-        print(self.object1_FrecuencyFactorVector)
         print(self.object1_FrecuencyFactorVector)
 
         # train the corresponding neural network depending on the confguration:
@@ -601,7 +622,7 @@ class View(QtCore.QObject):  # hereda de la clase QtGui.QmainWindow
             ret = msgBox.exec_()
             return
 
-        actual_network.train_nTimes(x, y, nTimes, noise)
+        actual_network.train_nTimes(x, y, nTimes, noise, self.training_handler)
         print("neural net trained :)")
         print("Input (scaled): \n" + str(x))
         print("Actual Output: \n" + str(y))
@@ -609,6 +630,11 @@ class View(QtCore.QObject):  # hereda de la clase QtGui.QmainWindow
         print("Loss: \n" + str(np.mean(np.square(y - actual_network.forward(x)))))
 
 
+    def training_handler (self, percentage):
+        print(percentage)
+        self.window.progressBar.setValue(percentage)
+
+        
     def identify_fuction(self):
         
         # only identify if the neural net is trained
@@ -765,10 +791,10 @@ class singlePlot2D(pg.GraphicsWindow):
         #self.plot_space.setWindowTitle('pyqtgraph example: Scrolling Plots')
 
         self.myPlot = self.addPlot()
-        self.myPlot.setLabels(left='Valor')
+        #self.myPlot.setLabels(left='Valor')
         self.myPlot.setLabels(bottom='tiempo')
 
-        self.newLine = self.myPlot.plot(pen = {'color': (255,0,0), 'width': 2} )
+        self.newLine = self.myPlot.plot(pen = {'color': (0, 85, 127), 'width': 2} )
 
     def update_data(self, x_vector, y_vector):
         self.newLine.setData(x_vector, y_vector)
@@ -808,10 +834,10 @@ class multiPlot2D(pg.GraphicsWindow):
         self.myPlot.setLabels(left='Valor')
         self.myPlot.setLabels(bottom='tiempo')
 
-        self.traceT1R1 = self.myPlot.plot(pen = {'color': (255,0,0), 'width': 3} )
-        self.traceT1R2 = self.myPlot.plot(pen = {'color': (0,255,0), 'width': 3} )
-        self.traceT2R1 = self.myPlot.plot(pen = {'color': (0,0,255), 'width': 3} )
-        self.traceT2R2 = self.myPlot.plot(pen = {'color': (255,0,255), 'width': 3} )
+        self.traceT1R1 = self.myPlot.plot(pen = {'color': (255,115,117), 'width': 2} )
+        self.traceT1R2 = self.myPlot.plot(pen = {'color': (58, 117,225), 'width': 2} )
+        self.traceT2R1 = self.myPlot.plot(pen = {'color': (255, 255 , 116), 'width': 2} )
+        self.traceT2R2 = self.myPlot.plot(pen = {'color': (243, 255, 213), 'width': 2} )
 
 
     def update_data(self, dataset_x, datasets_y):

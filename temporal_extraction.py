@@ -13,31 +13,24 @@ class Temporal_extract(object):
         return n-m
  
     def temporal_extraction(self,y,Fs):
+  
         
-        # Filter requirements.
-        order = 8
-        cutoff = 2000  # desired cutoff frequency of the low pass filter, Hz
-        multi_order = 5 # the order of the multiplication filter
-        b, a = get_butter_lowpass_coef(cutoff, Fs, order) # get the Z coeficents of the iir filter "b = denominator" "a = numerator" 
+        print(y)
+        dy = np.gradient(y) # derivate our input data
 
-        # Filter the output data
-        filter_y = butter_lowpass_filter(y, cutoff, Fs, order) # filter the input data
-        filter_dy = np.gradient(filter_y) # derivate our input data
-        mult_filter_dy = np.convolve(filter_dy, np.full(multi_order, 1/multi_order), 'same')
-        
-        print(mult_filter_dy)
         max_index_vector = [] # to append the maximuns index
 
-        for i in range(len(mult_filter_dy)):
+        # check if there is a sing change on each data pair
+        for i in range(len(y)):
             checker = 0
             try:
-                checker = np.sign(mult_filter_dy[i]) * np.sign(mult_filter_dy[i+1])
+                checker = np.sign(dy[i]) * np.sign(dy[i+1])
             except: # the last item in the vector
                 break
                 
             if int(checker) == -1: # its a maximun or a minimun
                 print("¡cero found!")
-                if mult_filter_dy[i] >= 0: # maximun
+                if dy[i] >= 0: # maximun
                     max_index_vector.append(i)
                     print ("max founded at index: " + str(i))
                 else: # minimun
