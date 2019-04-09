@@ -97,6 +97,21 @@ class View(QtCore.QObject):  # hereda de la clase QtGui.QmainWindow
         self.empty_characteristics_buffer(2)
         self.empty_characteristics_buffer(3)
         self.empty_characteristics_buffer(4)
+
+        self.vec_objetos = [{
+                "timeFactorVector"  : None,
+                "FrecuencyFactorVector" : None,
+                "CombinedFactorVector"  : None
+            },{
+                "timeFactorVector"  : None,
+                "FrecuencyFactorVector" : None,
+                "CombinedFactorVector"  : None
+            },{
+                "timeFactorVector" :  None,
+                "FrecuencyFactorVector" : None,
+                "CombinedFactorVector"  : None
+        }]
+
         # flags used to determined when to train the system
         self.is_object1Saved = False
         self.is_object2Saved = False
@@ -112,8 +127,10 @@ class View(QtCore.QObject):  # hereda de la clase QtGui.QmainWindow
         self.num_datos = None #vector size
 
         # create the  diferent neural networks:
-        self.num_trains = 100000
-        self.noise_percentage = 0.05
+        self.num_trains = 3
+        self.num_trains1 = 0
+        self.num_trains2 = 0
+        self.num_trains3 = 0
         self.neural_t1r1 = Neural_lib(neuralName="t1r1", numIn=3)
         self.neural_t1r2 = Neural_lib(neuralName="t1r2", numIn=6)
         self.neural_t2r1 = Neural_lib(neuralName="t2r1", numIn=6)
@@ -207,68 +224,174 @@ class View(QtCore.QObject):  # hereda de la clase QtGui.QmainWindow
         ret = msgBox.exec_()
         
         if ret == QtGui.QMessageBox.Yes:    
-            
-            # Save was clicked
-            name_object = self.window.lineEdit.text()
+
             print("save pressed")
 
             # save data depending on the object pressed
             if object_to_save == "1":
-                
+                print("objeto 1 entro!")
+
+                current_index = 0
+                self.num_trains1 += 1 
+
                 # save the text:
-                self.object_Name[0] = self.window.object1Name.text()
+                self.object_Name[current_index] = self.window.object1Name.text()
                 
                 # save the factors:
-                self.object1_timeFactorVector = [self.timeFactorVector1, self.timeFactorVector2, self.timeFactorVector3, self.timeFactorVector4]
-                self.object1_FrecuencyFactorVector = [self.FrecuencyFactorVector1, self.FrecuencyFactorVector2, self.FrecuencyFactorVector3, self.FrecuencyFactorVector4]
-                self.object1_CombinedFactorVector = [self.CombinedFactorVector1, self.CombinedFactorVector2, self.CombinedFactorVector3, self.CombinedFactorVector4]
-
+                self.vec_objetos[0]["timeFactorVector"] = [self.timeFactorVector1, self.timeFactorVector2, self.timeFactorVector3, self.timeFactorVector4]
+                self.vec_objetos[0]["FrecuencyFactorVector"] = [self.FrecuencyFactorVector1, self.FrecuencyFactorVector2, self.FrecuencyFactorVector3, self.FrecuencyFactorVector4]
+                self.vec_objetos[0]["CombinedFactorVector"] = [self.CombinedFactorVector1, self.CombinedFactorVector2, self.CombinedFactorVector3, self.CombinedFactorVector4]
+                
                 # display the vector:
-                self.window.object1Time.setText(str(np.around(self.object1_timeFactorVector, 4)))
-                self.window.object1Frecuency.setText(str(np.around(self.object1_FrecuencyFactorVector, 4)))
-                self.window.object1Combined.setText(str(np.around(self.object1_CombinedFactorVector, 3)))
+                self.window.object1Time.setText(str(np.around(self.vec_objetos[0]["timeFactorVector"], 4)))
+                self.window.object1Frecuency.setText(str(np.around(self.vec_objetos[0]["FrecuencyFactorVector"], 4)))
+                self.window.object1Combined.setText(str(np.around(self.vec_objetos[0]["CombinedFactorVector"], 3)))
                 
                 # flag used to determined if its moment to tran the neural network
                 self.is_object1Saved = True
+                
 
             elif object_to_save == "2":
                 
+                print("objeto 2 entró!")
+
+                current_index = 1
+                self.num_trains2 += 1 
+                
                 # save the text:
-                self.object_Name[1] = self.window.object2Name.text()
+                self.object_Name[current_index] = self.window.object2Name.text()
                 
                 # save the factors:
-                self.object2_timeFactorVector = [self.timeFactorVector1, self.timeFactorVector2, self.timeFactorVector3, self.timeFactorVector4]
-                self.object2_FrecuencyFactorVector = [self.FrecuencyFactorVector1, self.FrecuencyFactorVector2, self.FrecuencyFactorVector3, self.FrecuencyFactorVector4]
-                self.object2_CombinedFactorVector = [self.CombinedFactorVector1, self.CombinedFactorVector2, self.CombinedFactorVector3, self.CombinedFactorVector4]
+                self.vec_objetos[1]["timeFactorVector"] = [self.timeFactorVector1, self.timeFactorVector2, self.timeFactorVector3, self.timeFactorVector4]
+                self.vec_objetos[1]["FrecuencyFactorVector"] = [self.FrecuencyFactorVector1, self.FrecuencyFactorVector2, self.FrecuencyFactorVector3, self.FrecuencyFactorVector4]
+                self.vec_objetos[1]["CombinedFactorVector"] = [self.CombinedFactorVector1, self.CombinedFactorVector2, self.CombinedFactorVector3, self.CombinedFactorVector4]
+
+                print("input " + str(self.vec_objetos[0]["timeFactorVector"]))
 
                 # display the vector:
-                self.window.object2Time.setText(str(np.around(self.object2_timeFactorVector, 4)))
-                self.window.object2Frecuency.setText(str(np.around(self.object2_FrecuencyFactorVector, 4)))
-                self.window.object2Combined.setText(str(np.around(self.object2_CombinedFactorVector, 3)))
+                self.window.object2Time.setText(str(np.around(self.vec_objetos[1]["timeFactorVector"], 4)))
+                self.window.object2Frecuency.setText(str(np.around(self.vec_objetos[1]["FrecuencyFactorVector"], 4)))
+                self.window.object2Combined.setText(str(np.around(self.vec_objetos[1]["CombinedFactorVector"], 3)))
 
                 # flag used to determined if its moment to tran the neural network
                 self.is_object2Saved = True
 
             elif object_to_save == "3":
 
+                print("objeto 3 entró!")
+                current_index = 2
+                self.num_trains3 += 1 
+
                 # save the text:
-                self.object_Name[2] = self.window.object3Name.text()
+                self.object_Name[current_index] = self.window.object3Name.text()
                 
                 # save the factors:
-                self.object3_timeFactorVector = [self.timeFactorVector1, self.timeFactorVector2, self.timeFactorVector3, self.timeFactorVector4]
-                self.object3_FrecuencyFactorVector = [self.FrecuencyFactorVector1, self.FrecuencyFactorVector2, self.FrecuencyFactorVector3, self.FrecuencyFactorVector4]
-                self.object3_CombinedFactorVector = [self.CombinedFactorVector1, self.CombinedFactorVector2, self.CombinedFactorVector3, self.CombinedFactorVector4]
+                self.vec_objetos[2]["timeFactorVector"] = [self.timeFactorVector1, self.timeFactorVector2, self.timeFactorVector3, self.timeFactorVector4]
+                self.vec_objetos[2]["FrecuencyFactorVector"] = [self.FrecuencyFactorVector1, self.FrecuencyFactorVector2, self.FrecuencyFactorVector3, self.FrecuencyFactorVector4]
+                self.vec_objetos[2]["CombinedFactorVector"] = [self.CombinedFactorVector1, self.CombinedFactorVector2, self.CombinedFactorVector3, self.CombinedFactorVector4]
 
                 # display the vector:
-                self.window.object3Time.setText(str(np.around(self.object3_timeFactorVector, 4)))
-                self.window.object3Frecuency.setText(str(np.around(self.object3_FrecuencyFactorVector, 4)))
-                self.window.object3Combined.setText(str(np.around(self.object3_CombinedFactorVector, 3)))
+                self.window.object3Time.setText(str(np.around(self.vec_objetos[2]["timeFactorVector"], 4)))
+                self.window.object3Frecuency.setText(str(np.around(self.vec_objetos[2]["FrecuencyFactorVector"], 4)))
+                self.window.object3Combined.setText(str(np.around(self.vec_objetos[2]["CombinedFactorVector"], 3)))
 
                 # flag used to determined if its moment to tran the neural network
                 self.is_object3Saved = True
 
+            # update the progress barr:
+            self.training_handler()
+
+            # save the data to the file
+            if self.sensorType == MODE_T1R1:
+
+                #create the input and output vector depending on the sensor configuration:
+                x = np.array( 
+                    self.vec_objetos[current_index]["timeFactorVector"][:1] + 
+                    self.vec_objetos[current_index]["FrecuencyFactorVector"][:1] + 
+                    self.vec_objetos[current_index]["CombinedFactorVector"][:1] 
+                ,  dtype=float)
+
+                try:
+                    # save the data to hte file
+                    self.neural_t1r1.save_data_file(x, self.object_Name[current_index])
+                except Exception as e:
+                    print(e)
+                    msgBox = QtGui.QMessageBox()
+                    msgBox.setText("check your sensor configuration")
+                    msgBox.setWindowTitle("Ups, something went wrong training the network")
+                    ret = msgBox.exec_()
+                    return
+            
+            elif self.sensorType == MODE_T1R2:
+
+                #create the input and output vector depending on the sensor configuration:
+                x = np.array( 
+                    self.vec_objetos[current_index]["timeFactorVector"][:2] + 
+                    self.vec_objetos[current_index]["FrecuencyFactorVector"][:2] +
+                    self.vec_objetos[current_index]["CombinedFactorVector"][:2] 
+                ,  dtype=float)
+                try: 
+                    # save the data to hte file
+                    self.neural_t1r2.save_data_file(x, self.object_Name[current_index])
+                except Exception as e:
+                    print(e)
+                    msgBox = QtGui.QMessageBox()
+                    msgBox.setText("check your sensor configuration")
+                    msgBox.setWindowTitle("Ups, something went wrong training the network")
+                    ret = msgBox.exec_()
+                    return
+
+            elif self.sensorType == MODE_T2R1:
+                #create the input and output vector depending on the sensor configuration:
+                x = np.array( 
+                    self.vec_objetos[current_index]["timeFactorVector"][0] + self.vec_objetos[current_index]["timeFactorVector"][2] +  
+                    self.vec_objetos[current_index]["FrecuencyFactorVector"][0] + self.vec_objetos[current_index]["FrecuencyFactorVector"][2] + 
+                    self.vec_objetos[current_index]["CombinedFactorVector"][0] + self.vec_objetos[current_index]["CombinedFactorVector"][2] 
+                ,  dtype=float)
+
+                try: 
+                    # save the data to hte file
+                    self.neural_t2r1.save_data_file(x, self.object_Name[current_index])
+                except Exception as e:
+                    print(e)
+                    msgBox = QtGui.QMessageBox()
+                    msgBox.setText("check your sensor configuration")
+                    msgBox.setWindowTitle("Ups, something went wrong training the network")
+                    ret = msgBox.exec_()
+                    return
+
+            elif self.sensorType == MODE_T2R2:
+                #create the input and output vector depending on the sensor configuration:
+                print("object dictionary: "+ str(self.vec_objetos))
+
+                x = np.array( 
+                    self.vec_objetos[current_index]["timeFactorVector"] +
+                    self.vec_objetos[current_index]["FrecuencyFactorVector"] +
+                    self.vec_objetos[current_index]["CombinedFactorVector"] 
+                ,  dtype=float)
+
+
+                # save the data to hte file
+                try:
+                    self.neural_t2r2.save_data_file(x, self.object_Name[current_index])
+                except Exception as e:
+                    print(e)
+                    msgBox = QtGui.QMessageBox()
+                    msgBox.setText("check your sensor configuration")
+                    msgBox.setWindowTitle("Ups, something went wrong training the network")
+                    ret = msgBox.exec_()
+                    return
+
+            # you got the wrong configuration
+            else:
+                msgBox = QtGui.QMessageBox()
+                msgBox.setText("check your sensor configuration")
+                msgBox.setWindowTitle("Ups, something went wrong training the network")
+                ret = msgBox.exec_()
+                return
+
             # if all 3 objects are saved train your neural net:
-            if self.is_object1Saved and self.is_object2Saved and self.is_object3Saved:
+            if self.num_trains3 >= self.num_trains  and self.num_trains3 >= self.num_trains and self.num_trains3 >= self.num_trains:
                 
                 #show the message window:
                 msgBox = QtGui.QMessageBox()
@@ -280,8 +403,29 @@ class View(QtCore.QObject):  # hereda de la clase QtGui.QmainWindow
                 ret = msgBox.exec_()
 
                 if ret == QtGui.QMessageBox.Yes:
-                    self.train_neural_net()
                     self.is_neuralTrained = True
+
+                    # train the corresponding neural network depending on the confguration:
+                    if self.sensorType == MODE_T1R1:
+                        actual_network = self.neural_t1r1
+                        
+                    elif self.sensorType == MODE_T1R2:
+                        actual_network = self.neural_t1r2
+
+                    elif self.sensorType == MODE_T2R1:
+                        actual_network = self.neural_t2r1
+
+                    elif self.sensorType == MODE_T2R2:
+                        actual_network = self.neural_t2r2
+                    else:
+                        msgBox = QtGui.QMessageBox()
+                        msgBox.setText("check your sensor configuration!!")
+                        msgBox.setWindowTitle("Ups, something went wrong training the network")
+                        ret = msgBox.exec_()
+                        return
+
+                    actual_network.train_neural_network()
+                    
                 else:
                     print("canceled")
 
@@ -364,6 +508,8 @@ class View(QtCore.QObject):  # hereda de la clase QtGui.QmainWindow
         #get the data:
         vecs = self.get_dat()
 
+        print("vecs fron adquisition", vecs)
+
         #save the characteristics on the vectors:
         signal = Extract_features()
 
@@ -385,6 +531,10 @@ class View(QtCore.QObject):  # hereda de la clase QtGui.QmainWindow
             self.FrecuencyFactorVector1 = signal.frecuency_extraction(vecs[0],self.frec_muestreo)   
             self.timeFactorVector1 = signal.temporal_extraction(vecs[0],self.frec_muestreo)
             self.CombinedFactorVector1 = signal.energy_extraction(vecs[0])
+
+            print("frecuency1 ", self.FrecuencyFactorVector1)
+            print("frecuency2 ", self.timeFactorVector1)
+            print("frecuency3 ", self.CombinedFactorVector1)
 
             #show the results of the algorithm on the current plot
             self.window.t1r1Time.display(self.timeFactorVector1)
@@ -469,11 +619,23 @@ class View(QtCore.QObject):  # hereda de la clase QtGui.QmainWindow
         print("configuring sensor")
         print(btPressed)
         print(typeAction)
+
+        # reset everything
         self.is_neuralTrained = False
         self.is_object1Saved = False
         self.is_object2Saved = False
         self.is_object3Saved = False
-        self.window.progressBar.setValue(0)
+        self.num_trains1 = 0
+        self.num_trains2 = 0
+        self.num_trains3 = 0
+        self.window.progressBar1.setValue(0)
+        self.window.progressBar2.setValue(0)
+        self.window.progressBar3.setValue(0)
+        self.neural_t1r1.errase_data_file()
+        self.neural_t1r2.errase_data_file()
+        self.neural_t2r1.errase_data_file()
+        self.neural_t2r2.errase_data_file()
+
         
         # Disable data depending on the checkbox you activate
         if btPressed == "t1r1":
@@ -551,71 +713,23 @@ class View(QtCore.QObject):  # hereda de la clase QtGui.QmainWindow
 
 
     def train_neural_net(self):
-        print("neural net being trained")
-        
-        #testing constants
-        nTimes =  100000
-        noise = 0.02
-        
-        #create the output corresponding on each object
-        y = np.array([[1, 0, 0], [0, 1, 0], [0, 0, 1]],  dtype=float)
 
+        print("neural net being trained")
         print(self.object1_timeFactorVector)
         print(self.object1_FrecuencyFactorVector)
 
         # train the corresponding neural network depending on the confguration:
         if self.sensorType == MODE_T1R1:
-            #create the input and output vector depending on the sensor configuration:
-            x = np.array([ 
-                self.object1_timeFactorVector[:1] + self.object2_timeFactorVector[:1] + self.object3_timeFactorVector[:1] ,
-                self.object1_FrecuencyFactorVector[:1] + self.object2_FrecuencyFactorVector[:1] + self.object3_FrecuencyFactorVector[:1] ,
-                self.object1_CombinedFactorVector[:1] + self.object2_CombinedFactorVector[:1] + self.object3_CombinedFactorVector[:1] 
-            ],  dtype=float)
-            absolute_max = np.amax(x) # gives the max value of all the values on the matrix
-            relative_max = np.amax(x, axis=0) # gives the max of each characteristics (compared to the other object)
-            x = x / relative_max  # normalize x data using maximum of its axis (axis cero means the )
-            print(x)
             actual_network = self.neural_t1r1
             
         elif self.sensorType == MODE_T1R2:
-            #create the input and output vector depending on the sensor configuration:
-            x = np.array([ 
-                self.object1_timeFactorVector[:2] + self.object2_timeFactorVector[:2] + self.object3_timeFactorVector[:2] ,
-                self.object1_FrecuencyFactorVector[:2] + self.object2_FrecuencyFactorVector[:2] + self.object3_FrecuencyFactorVector[:2] ,
-                self.object1_CombinedFactorVector[:2] + self.object2_CombinedFactorVector[:2] + self.object3_CombinedFactorVector[:2] 
-            ],  dtype=float)
-            absolute_max = np.amax(x) # gives the max value of all the values on the matrix
-            relative_max = np.amax(x, axis=0) # gives the max of each characteristics (compared to the other object)
-            x = x / relative_max  # normalize x data using maximum of its axis (axis cero means the )
-            print(x)
             actual_network = self.neural_t1r2
 
         elif self.sensorType == MODE_T2R1:
-            #create the input and output vector depending on the sensor configuration:
-            x = np.array([ 
-                self.object1_timeFactorVector[0] + self.object1_timeFactorVector[2] +  self.object2_timeFactorVector[0] + self.object2_timeFactorVector[2] + self.object3_timeFactorVector[0] + self.object3_timeFactorVector[2] ,
-                self.object1_FrecuencyFactorVector[0] + self.object1_FrecuencyFactorVector[2] + self.object2_FrecuencyFactorVector[0] + self.object2_FrecuencyFactorVector[2] + self.object3_FrecuencyFactorVector[0] + self.object3_FrecuencyFactorVector[2] ,
-                self.object1_CombinedFactorVector[0] + self.object1_CombinedFactorVector[2] + self.object2_CombinedFactorVector[0] + self.object2_CombinedFactorVector[2] + self.object3_CombinedFactorVector[0] + self.object3_CombinedFactorVector[2] 
-            ],  dtype=float)
-            absolute_max = np.amax(x) # gives the max value of all the values on the matrix
-            relative_max = np.amax(x, axis=0) # gives the max of each characteristics (compared to the other object)
-            x = x / relative_max  # normalize x data using maximum of its axis (axis cero means the )
-            print(x)
             actual_network = self.neural_t2r1
 
         elif self.sensorType == MODE_T2R2:
-            #create the input and output vector depending on the sensor configuration:
-            x = np.array([ 
-                self.object1_timeFactorVector + self.object2_timeFactorVector + self.object3_timeFactorVector  ,
-                self.object1_FrecuencyFactorVector + self.object2_FrecuencyFactorVector + self.object3_FrecuencyFactorVector ,
-                self.object1_CombinedFactorVector + self.object2_CombinedFactorVector + self.object3_CombinedFactorVector
-            ],  dtype=float)
-            absolute_max = np.amax(x) # gives the max value of all the values on the matrix
-            relative_max = np.amax(x, axis=0) # gives the max of each characteristics (compared to the other object)
-            x = x / relative_max  # normalize x data using maximum of its axis (axis cero means the )
-            print(x)
             actual_network = self.neural_t2r2
-
         else:
             msgBox = QtGui.QMessageBox()
             msgBox.setText("check your sensor configuration")
@@ -624,17 +738,12 @@ class View(QtCore.QObject):  # hereda de la clase QtGui.QmainWindow
             return
 
         actual_network.train_neural_network()
-        
-        print("neural net trained :)")
-        print("Input (scaled): \n" + str(x))
-        print("Actual Output: \n" + str(y))
-        print("Predicted Output: \n" + str(actual_network.forward(x)))  
-        print("Loss: \n" + str(np.mean(np.square(y - actual_network.forward(x)))))
 
+    def training_handler (self):
 
-    def training_handler (self, percentage):
-        print(percentage)
-        self.window.progressBar.setValue(percentage)
+        self.window.progressBar1.setValue(100 * self.num_trains1/self.num_trains)
+        self.window.progressBar2.setValue(100 * self.num_trains2/self.num_trains)
+        self.window.progressBar3.setValue(100 * self.num_trains3/self.num_trains)
 
         
     def identify_fuction(self):
@@ -668,10 +777,8 @@ class View(QtCore.QObject):  # hereda de la clase QtGui.QmainWindow
                 signal.frecuency_extraction(vecs[0], self.frec_muestreo), 
                 signal.energy_extraction(vecs[0])
             ],  dtype=float)
-            relative_max = np.amax(inputData, axis=0) # gives the max of each characteristics (compared to the other object)
-            inputData = inputData / relative_max
-            self.neural_t1r1.predict(inputData) #this is a printing function
-            y = self.neural_t1r1.forward(inputData) # get the output of the neural net
+
+            ret = self.neural_t1r1.predict_neural_network(inputData) #this is a printing function
 
         elif self.sensorType == MODE_T1R2:
             print("identifying for type of sensor T1R2")
@@ -693,9 +800,8 @@ class View(QtCore.QObject):  # hereda de la clase QtGui.QmainWindow
                 signal.energy_extraction(vecs[1])
             ],  dtype=float)
             relative_max = np.amax(inputData, axis=0) # gives the max of each characteristics (compared to the other object)
-            inputData = inputData / relative_max
-            self.neural_t1r2.predict(inputData) #this is a printing function
-            y = self.neural_t1r2.forward(inputData) # get the output of the neural net
+            
+            ret = self.neural_t1r2.predict_neural_network(inputData) # get the output of the neural net
 
         elif self.sensorType == MODE_T2R1:
             print("identifying for type of sensor T2R1")
@@ -713,10 +819,8 @@ class View(QtCore.QObject):  # hereda de la clase QtGui.QmainWindow
                 signal.energy_extraction(vecs[0]),
                 signal.energy_extraction(vecs[2])
             ],  dtype=float)
-            relative_max = np.amax(inputData, axis=0) # gives the max of each characteristics (compared to the other object)
-            inputData = inputData / relative_max
-            self.neural_t2r1.predict(inputData) #this is a printing function
-            y = self.neural_t2r1.forward(inputData) # get the output of the neural net
+
+            ret = self.neural_t2r1.predict_neural_network(inputData) # get the output of the neural net
 
         elif self.sensorType == MODE_T2R2:
             print("identifying for type of sensor T2R2")
@@ -744,9 +848,7 @@ class View(QtCore.QObject):  # hereda de la clase QtGui.QmainWindow
 
             ],  dtype=float)
             relative_max = np.amax(inputData, axis=0) # gives the max of each characteristics (compared to the other object)
-            inputData = inputData / relative_max
-            self.neural_t2r2.predict(inputData) #this is a printing function
-            y = self.neural_t2r2.forward(inputData) # get the output of the neural net
+            ret = self.neural_t2r2.predict_neural_network(inputData) # get the output of the neural net
         else:
             msgBox = QtGui.QMessageBox()
             msgBox.setText("check your sensor configuration")
@@ -754,19 +856,16 @@ class View(QtCore.QObject):  # hereda de la clase QtGui.QmainWindow
             ret = msgBox.exec_()
             return
         
-        print(y[0])
-        self.window.object1_result.display(100 * y[0]) # obj1
-        self.window.object2_result.display(100 * y[1]) # obj2
-        self.window.object3_result.display(100 * y[2]) # obj3
+        print(ret[0])
+        self.window.object1_result.display(100 * ret[0]) # obj1
+        self.window.object2_result.display(100 * ret[1]) # obj2
+        self.window.object3_result.display(100 * ret[2]) # obj3
 
         tolerance = 0.6 # 50 %
 
         # check the minimun tolerance
-        if y[0] > tolerance or y[1] > tolerance or y[2] > tolerance:
-            index_max = np.argmax(y) # get the max index
-            print(index_max)
-            print(self.object_Name[index_max])
-            self.window.objectName_result.setText(self.object_Name[index_max]) # display the saved name
+        if ret[0] > tolerance or ret[1] > tolerance or ret[2] > tolerance:
+            self.window.objectName_result.setText(ret[3]) # display the saved name
         # display none
         else:
             self.window.objectName_result.setText("None")

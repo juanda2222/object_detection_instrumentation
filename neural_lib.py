@@ -20,8 +20,9 @@ class Neural_lib(object):
         self.scaler = None # used to scale the input data
 
     def save_data_file(self, x, y='none'):
-        assert x == []
-        myData =[[x.append(y)]]
+        print("saving data from object: " + str(x))
+        assert len(x) != 0 , "empty vector" 
+        myData =[np.append(x,y)]
         myFile = open(self.neuralName + '_data.csv','a') # always add new line 'w' to overwrite
         with myFile:
             writer = csv.writer(myFile)
@@ -79,5 +80,5 @@ class Neural_lib(object):
         predictions = self.mlp.predict_proba(x_scaled) # give us the probability of the outputs
         print(predictions) # the first level is the percentage an the subsecuents in order
         
-        return predictions[0, 0]*100, predictions[0, 1]*100, predictions[0,2]*100, predictions_str[0] # object 1, object 2 ... name_of_object (prediction)
+        return predictions[0, 0], predictions[0, 1], predictions[0,2], predictions_str[0] # % object 1, % object 2 ... name_of_object (prediction)
         
