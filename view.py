@@ -16,6 +16,8 @@ from temporal_extraction import butter_lowpass_filter
 from frecuency_extraction import Frecuency_extraction
 from extract_features import Extract_features
 
+from get_data import serial_configuration
+
 # neural network de jaime
 from neural_lib import Neural_lib
 
@@ -117,10 +119,11 @@ class View(QtCore.QObject):  # hereda de la clase QtGui.QmainWindow
         self.is_object2Saved = False
         self.is_object3Saved = False
         self.is_neuralTrained = False
-        
 
-        #from the configuration pdu:
-        self.frec_muestreo = 8928
+        # mantain the system configured
+        self.timer = pg.QtCore.QTimer()
+        self.timer.timeout.connect(self.configure_system)
+        self.timer.start(5000)
 
         #for procesing the data:
         self.t = None #sample rate
@@ -138,6 +141,13 @@ class View(QtCore.QObject):  # hereda de la clase QtGui.QmainWindow
 
         self.window.show()
         print("view init done!")
+
+    def configure_system(self):
+        
+        #self.sample, self.resolution, self.Vref, self.CR =  serial_configuration()
+
+        #from the configuration pdu:
+        self.frec_muestreo = 8928
 
     def beautify_lcd(self):
         # get the palette
@@ -191,7 +201,7 @@ class View(QtCore.QObject):  # hereda de la clase QtGui.QmainWindow
         # check problems:
         if  self.sensorType == MODE_NONE:
             msgBox = QtGui.QMessageBox()
-            msgBox.setText("check your sensor configuration")
+            msgBox.setText("your configuration does not exist")
             msgBox.setWindowTitle("Ups, something went wrong")
             ret = msgBox.exec_()
             return
@@ -206,12 +216,11 @@ class View(QtCore.QObject):  # hereda de la clase QtGui.QmainWindow
             msgBox.setWindowTitle("Ups, something went wrong")
             ret = msgBox.exec_()
             return
-        # the data is empty
-        if self.timeFactorVector1 == None:
+
             msgBox = QtGui.QMessageBox()
-            msgBox.setText("please capture some data")
+            msgBox.setText("please adquire some data")
             msgBox.setWindowTitle("Ups, something went wrong")
-            ret = msgBox.exec_()
+            ret = msgBox.exec_()       
             return
 
         #show the message window:
@@ -391,7 +400,9 @@ class View(QtCore.QObject):  # hereda de la clase QtGui.QmainWindow
                 return
 
             # if all 3 objects are saved train your neural net:
-            if self.num_trains3 >= self.num_trains  and self.num_trains3 >= self.num_trains and self.num_trains3 >= self.num_trains:
+            if (self.num_trains1 >= self.num_trains) and (
+            self.num_trains2 >= self.num_trains ) and (
+            self.num_trains3 >= self.num_trains):
                 
                 #show the message window:
                 msgBox = QtGui.QMessageBox()
@@ -403,7 +414,6 @@ class View(QtCore.QObject):  # hereda de la clase QtGui.QmainWindow
                 ret = msgBox.exec_()
 
                 if ret == QtGui.QMessageBox.Yes:
-                    self.is_neuralTrained = True
 
                     # train the corresponding neural network depending on the confguration:
                     if self.sensorType == MODE_T1R1:
@@ -417,14 +427,9 @@ class View(QtCore.QObject):  # hereda de la clase QtGui.QmainWindow
 
                     elif self.sensorType == MODE_T2R2:
                         actual_network = self.neural_t2r2
-                    else:
-                        msgBox = QtGui.QMessageBox()
-                        msgBox.setText("check your sensor configuration!!")
-                        msgBox.setWindowTitle("Ups, something went wrong training the network")
-                        ret = msgBox.exec_()
-                        return
 
                     actual_network.train_neural_network()
+                    self.is_neuralTrained = True
                     
                 else:
                     print("canceled")
@@ -466,25 +471,50 @@ class View(QtCore.QObject):  # hereda de la clase QtGui.QmainWindow
         # create vectors depending on the 
         r = random.randint(0, 2)
         if r == 0:
-            self.s1 = np.sin(2 * pi * sine_freq * self.t) 
-            self.s2 = cos(2 * pi * 0.5 *sine_freq * self.t) 
-            self.s3 = np.sin(2 * pi * 2*sine_freq * self.t) + cos(2 * pi * sine_freq*0.1 * self.t) 
-            self.s4 = np.sin(2 * pi * 2*sine_freq * self.t) + np.sin(2 * pi * sine_freq * self.t) 
+            self.s1 = np.sin(2 * pi * sine_freq * self.t) + (np.random.rand(self.num_datos))*0.5
+            self.s2 = cos(2 * pi * 0.5 *sine_freq * self.t) + (np.random.rand(self.num_datos))*1
+            self.s3 = np.sin(2 * pi * 2*sine_freq * self.t) + cos(2 * pi * sine_freq*0.1 * self.t) + (np.random.rand(self.num_datos))*1.1
+            self.s4 = np.sin(2 * pi * 2*sine_freq * self.t) + np.sin(2 * pi * sine_freq * self.t) + (np.random.rand(self.num_datos))*2
         elif r == 1:
             self.s1 = np.arctan(2 * pi * 20 * sine_freq * self.t) + (np.random.rand(self.num_datos))*0.2
-            self.s2 = np.arctan(2 * pi * 200 * sine_freq * self.t) + (np.random.rand(self.num_datos))/10
-            self.s3 = np.arctan(2 * pi * 100 * sine_freq * self.t) + np.arctan(2 * pi * sine_freq * self.t) + (np.random.rand(self.num_datos))/100
-            self.s4 = np.arctan(2 * pi * 20 * sine_freq * self.t) + np.arctan(2 * pi * sine_freq/0.3 * self.t) + (np.random.rand(self.num_datos))/20
+            self.s2 = np.arctan(2 * pi * 200 * sine_freq * self.t) + (np.random.rand(self.num_datos))*1.5
+            self.s3 = np.arctan(2 * pi * 100 * sine_freq * self.t) + np.arctan(2 * pi * sine_freq * self.t) + (np.random.rand(self.num_datos)) * 0.5
+            self.s4 = np.arctan(2 * pi * 20 * sine_freq * self.t) + np.arctan(2 * pi * sine_freq/0.3 * self.t) + (np.random.rand(self.num_datos)) * 0.1
         elif r == 2:
-            self.s1 = np.tan(2 * pi * 2*sine_freq * self.t) + np.tan(2 * pi * sine_freq *0.2 * self.t) + (np.random.rand(self.num_datos))/0.1
+            self.s1 = np.tan(2 * pi * 2*sine_freq * self.t) + np.tan(2 * pi * sine_freq *0.2 * self.t) + (np.random.rand(self.num_datos))*0.1
             self.s2 = np.tan(2 * pi * 5*sine_freq * self.t) + np.tan(2 * pi * 2 * sine_freq * self.t) + (np.random.rand(self.num_datos)) *0.5
-            self.s3 = np.tan(2 * pi * 6*sine_freq * self.t) + (np.random.rand(self.num_datos)) 
+            self.s3 = np.tan(2 * pi * 6*sine_freq * self.t) + (np.random.rand(self.num_datos))* 1
             self.s4 = np.tan(2 * pi * sine_freq * self.t) + (np.random.rand(self.num_datos))*0.2
         
-
         vecs = [self.s1, self.s2, self.s3, self.s4]
-        filt_vecs = [None, None, None, None]
+
+        # check if any data is empty
+        channel = ""
+        error = False
+        # if any the data is empty break
+        if not (np.any(vecs[0]) == 1):
+            channel = "t1r1"
+            error = True
+        elif not (np.any(vecs[1]) == 1):
+            channel = "t1r2"    
+            error = True
+        elif not (np.any(vecs[2]) == 1):
+            channel = "t2r1"
+            error = True
+        elif not (np.any(vecs[3]) == 1): 
+            channel = "t2r2"
+            error = True
         
+        if error:
+            print("something is wrong getting the data")
+            msgBox = QtGui.QMessageBox()
+            msgBox.setText("where is a problem with the channel:  " + channel)
+            msgBox.setWindowTitle("Ups, there is a problem with the serial data")
+            ret = msgBox.exec_() 
+
+        """
+        # filter the input data: (opcional)
+        filt_vecs = [None, None, None, None]
         for i in range(len(vecs)):
             print("the vectoorrr data is")
             print(vecs[i])
@@ -498,31 +528,22 @@ class View(QtCore.QObject):  # hereda de la clase QtGui.QmainWindow
             mult_filter = np.convolve(filter_y, np.full(multi_order, 1/multi_order), 'same')
 
             filt_vecs[i] = mult_filter
-            print("the filtered data is")
-            print(filt_vecs[i])
-            
-        return filt_vecs
+        """ 
+        return vecs
 
     def capture_data_function(self):
 
         #get the data:
         vecs = self.get_dat()
+        #print("vecs fron adquisition", vecs)
 
-        print("vecs fron adquisition", vecs)
+        print("vecs from sensor: ", vecs)
 
         #save the characteristics on the vectors:
         signal = Extract_features()
 
         # Process every single enabled grup:
         if self.window.t1r1Enable.isChecked():
-            
-            # if the data is empty break
-            if not (np.any(vecs[0]) == 1): 
-                msgBox = QtGui.QMessageBox()
-                msgBox.setText("please check the configuration of the t1r1 channel")
-                msgBox.setWindowTitle("Ups, there is a problem with the serial data")
-                ret = msgBox.exec_()                
-                return
         
             #graficate response:
             self.my_plot_t1r1.update_data(self.t, vecs[0])
@@ -532,24 +553,12 @@ class View(QtCore.QObject):  # hereda de la clase QtGui.QmainWindow
             self.timeFactorVector1 = signal.temporal_extraction(vecs[0],self.frec_muestreo)
             self.CombinedFactorVector1 = signal.energy_extraction(vecs[0])
 
-            print("frecuency1 ", self.FrecuencyFactorVector1)
-            print("frecuency2 ", self.timeFactorVector1)
-            print("frecuency3 ", self.CombinedFactorVector1)
-
             #show the results of the algorithm on the current plot
             self.window.t1r1Time.display(self.timeFactorVector1)
             self.window.t1r1Frecuency.display(self.FrecuencyFactorVector1)
             self.window.t1r1Combined.display(self.CombinedFactorVector1)
 
         if self.window.t1r2Enable.isChecked():
-            
-            # if the data is empty break
-            if not (np.any(vecs[1]) == 1): 
-                msgBox = QtGui.QMessageBox()
-                msgBox.setText("please check the configuration of the t1r2 channel")
-                msgBox.setWindowTitle("Ups, there is a problem with the serial data")
-                ret = msgBox.exec_()       
-                return
 
             #graficate response:
             self.my_plot_t1r2.update_data(self.t, vecs[1])
@@ -565,14 +574,6 @@ class View(QtCore.QObject):  # hereda de la clase QtGui.QmainWindow
             self.window.t1r2Combined.display(self.CombinedFactorVector2)
 
         if self.window.t2r1Enable.isChecked():
-            
-            # if the data is empty break
-            if not (np.any(vecs[2]) == 1): 
-                msgBox = QtGui.QMessageBox()
-                msgBox.setText("please check the configuration of the t2r1 channel")
-                msgBox.setWindowTitle("Ups, there is a problem with the serial data")
-                ret = msgBox.exec_()       
-                return
 
             #graficate response:
             self.my_plot_t2r1.update_data(self.t, vecs[2])
@@ -589,14 +590,6 @@ class View(QtCore.QObject):  # hereda de la clase QtGui.QmainWindow
 
         if self.window.t2r2Enable.isChecked():
             
-            # if the data is empty break
-            if not (np.any(vecs[3]) == 1): 
-                msgBox = QtGui.QMessageBox()
-                msgBox.setText("please check the configuration of the t2r2 channel")
-                msgBox.setWindowTitle("Ups, there is a problem with the serial data")
-                ret = msgBox.exec_()       
-                return
-
             #graficate response:
             self.my_plot_t2r2.update_data(self.t, vecs[3])
 
@@ -613,6 +606,7 @@ class View(QtCore.QObject):  # hereda de la clase QtGui.QmainWindow
         print("data adquired")
         #percentaje object from jaimen
         #p_ob1,p_ob2,p_ob3,name_object = neural_network(dF,dT,E)
+
 
     def configureSensor(self, btPressed, typeAction):
 
@@ -715,8 +709,6 @@ class View(QtCore.QObject):  # hereda de la clase QtGui.QmainWindow
     def train_neural_net(self):
 
         print("neural net being trained")
-        print(self.object1_timeFactorVector)
-        print(self.object1_FrecuencyFactorVector)
 
         # train the corresponding neural network depending on the confguration:
         if self.sensorType == MODE_T1R1:
@@ -745,7 +737,6 @@ class View(QtCore.QObject):  # hereda de la clase QtGui.QmainWindow
         self.window.progressBar2.setValue(100 * self.num_trains2/self.num_trains)
         self.window.progressBar3.setValue(100 * self.num_trains3/self.num_trains)
 
-        
     def identify_fuction(self):
         
         # only identify if the neural net is trained

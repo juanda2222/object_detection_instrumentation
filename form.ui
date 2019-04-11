@@ -971,6 +971,12 @@ background-color: rgb(0, 0, 0);</string>
        </item>
        <item>
         <widget class="QWidget" name="widget_8" native="true">
+         <property name="minimumSize">
+          <size>
+           <width>200</width>
+           <height>0</height>
+          </size>
+         </property>
          <layout class="QVBoxLayout" name="verticalLayout_17">
           <property name="spacing">
            <number>5</number>
@@ -989,9 +995,15 @@ background-color: rgb(0, 0, 0);</string>
           </property>
           <item>
            <widget class="QTabWidget" name="tabWidget">
+            <property name="minimumSize">
+             <size>
+              <width>180</width>
+              <height>0</height>
+             </size>
+            </property>
             <property name="maximumSize">
              <size>
-              <width>290</width>
+              <width>600</width>
               <height>16777215</height>
              </size>
             </property>
@@ -1009,7 +1021,7 @@ QTabBar::tab:!selected {
              <enum>QTabWidget::North</enum>
             </property>
             <property name="currentIndex">
-             <number>2</number>
+             <number>0</number>
             </property>
             <widget class="QWidget" name="Object1">
              <attribute name="title">
@@ -1364,6 +1376,47 @@ background-color: rgba(19, 218, 5, 80%);
                 </property>
                </spacer>
               </item>
+              <item row="5" column="1">
+               <widget class="QWidget" name="widget_27" native="true">
+                <layout class="QVBoxLayout" name="verticalLayout_10">
+                 <item>
+                  <widget class="QPushButton" name="object2Save">
+                   <property name="styleSheet">
+                    <string notr="true">background-color: rgb(0, 85, 127);</string>
+                   </property>
+                   <property name="text">
+                    <string>Save as object 2</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QProgressBar" name="progressBar2">
+                   <property name="styleSheet">
+                    <string notr="true">QProgressBar {
+    border: 0px solid grey;
+    border-radius: 5px;/*radio de las esquinas*/
+	text-align: center;
+	font: 57 10pt &quot;Orbitron&quot;;
+}
+QProgressBar::chunk {
+background-color: rgba(19, 218, 5, 80%);
+	color: rgb(0, 170, 0);
+}</string>
+                   </property>
+                   <property name="value">
+                    <number>0</number>
+                   </property>
+                   <property name="textVisible">
+                    <bool>true</bool>
+                   </property>
+                   <property name="textDirection">
+                    <enum>QProgressBar::BottomToTop</enum>
+                   </property>
+                  </widget>
+                 </item>
+                </layout>
+               </widget>
+              </item>
               <item row="1" column="1">
                <widget class="QWidget" name="widget_16" native="true">
                 <layout class="QVBoxLayout" name="verticalLayout_12">
@@ -1530,47 +1583,6 @@ background-color: rgba(19, 218, 5, 80%);
                 </layout>
                </widget>
               </item>
-              <item row="5" column="1">
-               <widget class="QWidget" name="widget_27" native="true">
-                <layout class="QVBoxLayout" name="verticalLayout_10">
-                 <item>
-                  <widget class="QPushButton" name="object2Save">
-                   <property name="styleSheet">
-                    <string notr="true">background-color: rgb(0, 85, 127);</string>
-                   </property>
-                   <property name="text">
-                    <string>Save as object 2</string>
-                   </property>
-                  </widget>
-                 </item>
-                 <item>
-                  <widget class="QProgressBar" name="progressBar2">
-                   <property name="styleSheet">
-                    <string notr="true">QProgressBar {
-    border: 0px solid grey;
-    border-radius: 5px;/*radio de las esquinas*/
-	text-align: center;
-	font: 57 10pt &quot;Orbitron&quot;;
-}
-QProgressBar::chunk {
-background-color: rgba(19, 218, 5, 80%);
-	color: rgb(0, 170, 0);
-}</string>
-                   </property>
-                   <property name="value">
-                    <number>0</number>
-                   </property>
-                   <property name="textVisible">
-                    <bool>true</bool>
-                   </property>
-                   <property name="textDirection">
-                    <enum>QProgressBar::BottomToTop</enum>
-                   </property>
-                  </widget>
-                 </item>
-                </layout>
-               </widget>
-              </item>
              </layout>
             </widget>
             <widget class="QWidget" name="Object3">
@@ -1590,6 +1602,19 @@ background-color: rgba(19, 218, 5, 80%);
               <property name="bottomMargin">
                <number>0</number>
               </property>
+              <item row="2" column="1">
+               <spacer name="verticalSpacer_5">
+                <property name="orientation">
+                 <enum>Qt::Vertical</enum>
+                </property>
+                <property name="sizeHint" stdset="0">
+                 <size>
+                  <width>20</width>
+                  <height>101</height>
+                 </size>
+                </property>
+               </spacer>
+              </item>
               <item row="1" column="2">
                <spacer name="horizontalSpacer_5">
                 <property name="orientation">
@@ -1629,18 +1654,46 @@ background-color: rgba(19, 218, 5, 80%);
                 </property>
                </spacer>
               </item>
-              <item row="2" column="1">
-               <spacer name="verticalSpacer_5">
-                <property name="orientation">
-                 <enum>Qt::Vertical</enum>
-                </property>
-                <property name="sizeHint" stdset="0">
-                 <size>
-                  <width>20</width>
-                  <height>101</height>
-                 </size>
-                </property>
-               </spacer>
+              <item row="3" column="1">
+               <widget class="QWidget" name="widget_29" native="true">
+                <layout class="QVBoxLayout" name="verticalLayout_21">
+                 <item>
+                  <widget class="QPushButton" name="object3Save">
+                   <property name="styleSheet">
+                    <string notr="true">background-color: rgb(0, 85, 127);</string>
+                   </property>
+                   <property name="text">
+                    <string>Save as object 3</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QProgressBar" name="progressBar3">
+                   <property name="styleSheet">
+                    <string notr="true">QProgressBar {
+    border: 0px solid grey;
+    border-radius: 5px;/*radio de las esquinas*/
+	text-align: center;
+	font: 57 10pt &quot;Orbitron&quot;;
+}
+QProgressBar::chunk {
+background-color: rgba(19, 218, 5, 80%);
+	color: rgb(0, 170, 0);
+}</string>
+                   </property>
+                   <property name="value">
+                    <number>0</number>
+                   </property>
+                   <property name="textVisible">
+                    <bool>true</bool>
+                   </property>
+                   <property name="textDirection">
+                    <enum>QProgressBar::BottomToTop</enum>
+                   </property>
+                  </widget>
+                 </item>
+                </layout>
+               </widget>
               </item>
               <item row="1" column="1">
                <widget class="QWidget" name="widget_13" native="true">
@@ -1682,7 +1735,7 @@ background-color: rgba(19, 218, 5, 80%);
                       </property>
                       <property name="sizeHint" stdset="0">
                        <size>
-                        <width>5</width>
+                        <width>40</width>
                         <height>20</height>
                        </size>
                       </property>
@@ -1714,7 +1767,7 @@ background-color: rgba(19, 218, 5, 80%);
                       </property>
                       <property name="sizeHint" stdset="0">
                        <size>
-                        <width>5</width>
+                        <width>40</width>
                         <height>20</height>
                        </size>
                       </property>
@@ -1808,49 +1861,61 @@ background-color: rgba(19, 218, 5, 80%);
                 </layout>
                </widget>
               </item>
-              <item row="3" column="1">
-               <widget class="QWidget" name="widget_29" native="true">
-                <layout class="QVBoxLayout" name="verticalLayout_21">
-                 <item>
-                  <widget class="QPushButton" name="object3Save">
-                   <property name="styleSheet">
-                    <string notr="true">background-color: rgb(0, 85, 127);</string>
-                   </property>
-                   <property name="text">
-                    <string>Save as object 3</string>
-                   </property>
-                  </widget>
-                 </item>
-                 <item>
-                  <widget class="QProgressBar" name="progressBar3">
-                   <property name="styleSheet">
-                    <string notr="true">QProgressBar {
-    border: 0px solid grey;
-    border-radius: 5px;/*radio de las esquinas*/
-	text-align: center;
-	font: 57 10pt &quot;Orbitron&quot;;
-}
-QProgressBar::chunk {
-background-color: rgba(19, 218, 5, 80%);
-	color: rgb(0, 170, 0);
-}</string>
-                   </property>
-                   <property name="value">
-                    <number>0</number>
-                   </property>
-                   <property name="textVisible">
-                    <bool>true</bool>
-                   </property>
-                   <property name="textDirection">
-                    <enum>QProgressBar::BottomToTop</enum>
-                   </property>
-                  </widget>
-                 </item>
-                </layout>
-               </widget>
-              </item>
              </layout>
             </widget>
+           </widget>
+          </item>
+          <item>
+           <widget class="QWidget" name="widget_30" native="true">
+            <property name="minimumSize">
+             <size>
+              <width>0</width>
+              <height>25</height>
+             </size>
+            </property>
+            <property name="maximumSize">
+             <size>
+              <width>16777215</width>
+              <height>40</height>
+             </size>
+            </property>
+            <layout class="QHBoxLayout" name="horizontalLayout_19">
+             <property name="spacing">
+              <number>0</number>
+             </property>
+             <property name="leftMargin">
+              <number>0</number>
+             </property>
+             <property name="topMargin">
+              <number>0</number>
+             </property>
+             <property name="rightMargin">
+              <number>0</number>
+             </property>
+             <property name="bottomMargin">
+              <number>0</number>
+             </property>
+             <item>
+              <spacer name="horizontalSpacer_23">
+               <property name="orientation">
+                <enum>Qt::Horizontal</enum>
+               </property>
+               <property name="sizeHint" stdset="0">
+                <size>
+                 <width>76</width>
+                 <height>20</height>
+                </size>
+               </property>
+              </spacer>
+             </item>
+             <item>
+              <widget class="QCheckBox" name="checkBox">
+               <property name="text">
+                <string>Errase data on close</string>
+               </property>
+              </widget>
+             </item>
+            </layout>
            </widget>
           </item>
          </layout>

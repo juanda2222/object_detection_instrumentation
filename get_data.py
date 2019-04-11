@@ -1,5 +1,5 @@
 from comu_serial import get_serial_data
-from serial_configuration import serial_configuration
+from comu_serial import setup_serial_data
 #serial = [2,0,10,5,0.03,0.1,0.4,0.1,0.04,1]
 
 def get_data():
@@ -41,3 +41,17 @@ def get_data():
                                 if  serial_get.get('CR4') == 1:
                                     return list_T1R1, list_T1R2, list_T2R1, list_T2R2  
  
+
+def serial_configuration():
+    bytes_config = setup_serial_data()
+    while bytes_config[0] != 1:        
+        bytes_config = setup_serial_data()
+        if bytes_config[0] == 1:
+            break
+    sample = bytes_config[1]
+    resolution = bytes_config[2]
+    Vref = bytes_config[3]
+    CR = bytes_config[4]
+    if CR == 1:
+        return sample, resolution, Vref, CR
+
