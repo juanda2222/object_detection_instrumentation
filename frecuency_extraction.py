@@ -18,9 +18,10 @@ class Frecuency_extraction(object):
         yf = fft(y)
         N = len(yf)
         yabs = np.abs(yf)
-        average = np.mean(yabs)
-        #normalized_yabs = yabs / np.max(yabs)
+        normalized_yabs = yabs / np.max(yabs)
 
+        average = np.mean(yabs)
+        
         # 2nd moment is (standard derivation)
         # Kurtosis is (moment = m): m4 / m2 ^ 2 
 
